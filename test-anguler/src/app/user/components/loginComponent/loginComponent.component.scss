@@ -1,0 +1,210 @@
+//importing theme styles
+@import "../../../theme/styles/variables";
+
+//styling for main login-container
+.login-container{
+    // background-image: url("../../../../assets/img/users/backGround.png");
+    background-image: url("assets/img/users/bg.png");
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    // position: relative;
+    padding: 100px 75px;
+    .card-left{
+      width: 70%;
+      height: 100%;
+      float: left;
+      position: relative;
+      .login-head{
+        color: #fff;
+        font-weight: bold;
+        font-size: 35px;
+        position: absolute;
+        top: 5%;
+        left: 8%;
+      }
+      .login-tagline{
+        color: #fff;
+        font-size: 15px;
+        position: absolute;
+        top: 15%;
+        left: 8%;
+      }
+      .laptop{
+        position: absolute;
+        width: 75%;
+        bottom: 10%;
+        left: 4%;
+      }
+      .iPhone{
+        position: absolute;
+        width: 20%;
+        bottom: 12%;
+        right: 20px;
+      }
+    }
+    .card{
+        padding-top:10%;
+        width: 30%;
+        height: 94.7%;
+        margin-top: 1.3%;
+        float: right;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        .rogi-logo{
+            width: 35%;
+            margin-bottom: 35px;
+        }
+        .forgot{
+          color: gray;
+          font-size: 10px;
+          float: left;
+        }
+        .login{
+            background: #6d3ec1;
+            border: none;
+            border-radius: 3px;
+            width: 28%;
+            font-size: 10px;
+            // float: left;
+            float: right;
+            text-transform: uppercase;
+            font-weight: bold;
+            // margin-left: 45px;
+            padding: 10px;
+        }
+        .account{
+            background: maroon;
+            border: none;
+            border-radius: 3px;
+            width: 90%;
+            font-size: 10px;
+            float: left;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .login-group{
+            padding:0 20px;
+        }
+        .input-side{
+             border: 1px solid #ccc;
+             border-right: 0 !important;
+             width: 15%;
+             padding: 5px;
+             text-align: center;
+             border-top-left-radius: 5px;
+             border-bottom-left-radius: 5px;
+             float: left;
+            .input-image{
+             width: 15px;
+            }
+           
+        }
+         input{
+           width: 85%;
+          /* padding: 6px !important; */
+          font-size: 12px;
+          border-top-right-radius: 5px;
+          border-bottom-right-radius: 5px;
+            }
+        }
+
+    // .card{
+    //     padding: 15px;
+    //     .btn-link{
+    //         padding: 0;
+    //         &.forgot{
+    //             font-size: 14px;
+    //         }
+    //         &:hover{
+    //             color: $main-color;
+    //         }
+    //     }
+       
+    // }
+    .login-box{
+        // background-image: url("../../../../assets/img/users/innerBackground.jpeg");
+        // background-size: 100% 100%;
+        // background-repeat: no-repeat;
+        // position: absolute;
+            width: 90%;
+    height: 90%;
+    // background-image: url("../../../../assets/img/users/innerBackground.jpeg"); 
+    background-image: url("assets/img/users/innerbg.png");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    border-radius: 10px;
+    /* box-shadow: 5px 3px 16px #888888; */
+    -webkit-box-shadow: 0 0 10px #555;
+    box-shadow:  0 0 10px #555;
+
+    }
+}
+
+//styling for separator
+.auth-sep {
+  margin-top: 32px;
+  margin-bottom: 24px;
+  line-height: 20px;
+  font-size: 15px;
+  text-align: center;
+  display: block;
+  position: relative;
+  & > span {
+    display: table-cell;
+    width: 30%;
+    white-space: nowrap;
+    padding: 0 14px;
+    color: $gray;
+    & > span {
+      margin-top: -11px;
+      display: block;
+      font-weight: 300;
+    }
+  }
+  &:before, &:after {
+    border-top: solid 1px $gray-light;
+    content: "";
+    height: 1px;
+    width: 35%;
+    display: table-cell;
+  }
+}
+
+//styling for social media login buttons
+.login-help{
+    margin: 0;
+    padding: 0;
+    li{
+        list-style: none;
+        display: inline-block;
+        margin-left: 10px;
+        &:first-child {
+            margin-left:0;
+        }
+        i{
+            cursor: pointer;
+            transition: all 0.1s ease;
+            color: #fff;
+            padding: 9px 9px 6px 9px;
+            font-size: 12px;
+            background-color: $main-color;
+            &.socicon-facebook{
+                background-color: $facebook-color;
+            }
+            &.socicon-twitter{
+                background-color: $twitter-color;
+            }
+            &.socicon-google{
+                background-color: $google-color;
+            }
+            &:hover{                         
+                opacity: 0.9;     
+            }
+        }
+    }
+}
+

@@ -1,0 +1,133 @@
+<nav class="navbar az-navbar">
+
+    <!--<a class="navbar-brand" routerLink="/pages/dashboard">-->
+    <a class="navbar-brand" [routerLink]="['/app/dashboard']">
+        <!--<img src="../assets/img/logo/offerupLogo.png" alt="" class="hidden-sm-down">-->
+        <img src="assets/img/logo/new_yelo.png" alt="" class="hidden-sm-down">
+        <!--<img src="../assets/img/logo/offerupLogo.png" alt="" class="hidden-md-up">-->
+        <img src="assets/img/logo/new_yelo.png" alt="" class="hidden-md-up">
+    </a>
+    <ul class="nav navbar-nav">
+        <li>
+            <a (click)="toggleMenu()" class="collapse-menu-link ion-navicon" id="collapse-menu-link"></a>
+        </li>
+        <li style="text-align: center">
+
+        </li>
+
+        <!--<li class="hidden-sm-down">
+            <form role="search" class="app-search">
+                <input type="text" placeholder="Search..." class="form-control">
+                <a href="javascript:void(0)"><i class="ion-ios-search-strong"></i></a>
+            </form>
+        </li>-->
+
+        <div class="pull-right">
+
+            <messages></messages>
+
+            <div class="dropdown pull-right user-menu">
+                <a class="dropdown-toggle user-link" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+                    <!--<img src="../assets/img/users/admin.png" alt="user-img" class="img-circle user-img">-->
+                    <img src="assets/img/users/admin.png" alt="user-img" class="img-circle user-img">
+                    <span class="hidden-md-down" style="text-transform: capitalize;">{{userName}}</span>
+                </a>
+
+                <ul class="dropdown-menu">
+                    <li class="user-info">
+                        <!--<img src="../assets/img/users/admin.png" alt="user-img" class="img-circle user-img">-->
+                        <img src="assets/img/users/admin.png" alt="user-img" class="img-circle user-img">
+                        <p style="text-transform: capitalize;">
+                            <!--Emilio Verdines - Web Developer-->
+                            {{userName}}
+                            <!--<small>Member since Dec. 2015</small>-->
+                        </p>
+                    </li>
+                    <!--<a class="dropdown-item" routerLink="profile"><i class="fa fa-user"></i>Profile</a>
+                    <a class="dropdown-item" routerLink="settings"><i class="fa fa-cog"></i>Settings</a>
+                    <a class="dropdown-item" routerLink="/"><i class="fa fa-lock"></i>Lock screen</a>-->
+                    <!--<a class="dropdown-item" [routerLink]="['/app/config']" style="cursor: pointer;"><i class="ion-ios-paper"></i>Terms And Condition</a>
+                    <a class="dropdown-item" [routerLink]="['/app/policy']" style="cursor: pointer;"><i class="ion-ios-paper"></i>Policy</a>-->
+                    <a class="dropdown-item" data-toggle="modal" data-target="#reset-modal" style="cursor: pointer;"><i class="fa fa-lock"></i>Reset password</a>
+
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" [routerLink]="['/login']"><i class="fa fa-power-off"></i>Log out</a>
+                </ul>
+            </div>
+        </div>
+    </ul>
+</nav>
+
+
+<div class="modal fade" id="reset-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-transform">
+                Reset Password
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-label"></h4>
+            </div>
+            <form [formGroup]="rePass" (ngSubmit)="resetPass(rePass)">
+                <fieldset>
+                    <div class="modal-body">
+                        <div class="form-group col-xs-12">
+                            <label for="input-2" class="col-xs-3 control-label">OLD Password:</label>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control checking-field" id="input-2" name="oldPassword"
+                                    placeholder="Enter old password" [formControl]="rePass.controls['oldPassword']" [ngModel]="rePass.oldPassword">
+
+                                <div *ngIf="rePass.controls['oldPassword'].errors && (rePass.controls['oldPassword'].dirty || rePass.controls['oldPassword'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!rePass.controls['oldPassword'].errors.required">
+                                        password is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <label for="input-3" class="col-xs-3 control-label">New Password:</label>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control checking-field" id="input-3" minlength="6"
+                                    name="newPassword" placeholder="Enter new password" [formControl]="rePass.controls['newPassword']"
+                                    [ngModel]="rePass.newPassword">
+
+                                <div *ngIf="rePass.controls['newPassword'].errors && (rePass.controls['newPassword'].dirty || rePass.controls['newPassword'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!rePass.controls['newPassword'].errors.required">
+                                        password is required
+                                    </div>
+                                    <div [hidden]="!rePass.controls['newPassword'].errors.minlength">
+                                        Password must be at least 6 characters long.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12">
+                            <label for="input-4" class="col-xs-3 control-label" >Confirm Password</label>
+                            <div class="col-xs-9">
+                                <input type="password" class="form-control checking-field" id="input-4" minlength="6" name="confirmPassword" placeholder="Enter confirm password" [formControl]="rePass.controls['confirmPassword']"
+                                    [ngModel]="rePass.confirmPassword">
+                                <div *ngIf="rePass.controls['confirmPassword'].errors && (rePass.controls['confirmPassword'].dirty || rePass.controls['confirmPassword'].touched)"
+                                    class="alert alert-danger">
+                                    <div *ngIf="rePass.controls['confirmPassword'].value != rePass.controls['newPassword'].value" class="alert alert-danger">
+                                        Password not match
+                                    </div>
+                                    <div [hidden]="!rePass.controls['confirmPassword'].errors.required">
+                                        password is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12" style="text-align: center">
+                            <div class="col-lg-10 col-lg-offset-2">
+                                <button type="submit" class="btn btn-primary" [disabled]="!rePass.valid">Submit</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+
+        </div>
+    </div>
+</div>

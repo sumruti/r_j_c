@@ -1,0 +1,37 @@
+.runPushBtn{
+    float: right;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #22A1E4;
+    height: 30px;
+}
+
+.zeroPadding{
+    padding: 0px !important;
+}
+.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    width: 100%;
+    text-align:center;
+}
+.custom{
+    cursor: pointer;
+    color: #22a1e4 !important;
+}
+.table td a.custom:hover {
+    color: blue !important;
+    text-decoration: underline !important;
+}
+.button-cust{
+    background-color: transparent;
+    border-color: transparent;
+}
+button.button-cust:hover {
+    color: blue;
+    text-decoration:underline;
+}

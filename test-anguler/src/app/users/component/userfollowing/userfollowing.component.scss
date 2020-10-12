@@ -1,0 +1,20 @@
+.zeroPadding{
+    padding: 0px !important;
+}
+.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    width: 100%;
+    text-align:center;
+}
+div#userDetail td {
+    border: 0;
+}
+.custom{
+    cursor: pointer;
+    color: #22a1e4 !important;
+}
+.table td a.custom:hover {
+    color: blue !important;
+    text-decoration: underline !important;
+}

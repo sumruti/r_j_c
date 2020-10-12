@@ -1,0 +1,157 @@
+<div class="col-xs-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left" style="border: 2px solid silver;border-radius: 3px;min-height: 374px;">
+        <div style="display: -webkit-inline-box;">
+            <h5 style="color: slategray;padding: 12px 0 0 22px;width: 212px;">Send Notification By:</h5>
+
+            <label class="radio-inline" style="padding: 14px 16px 0 20px">
+                <input type="radio" name="type" id="city" (change)="radioBtn()" value="city" [(ngModel)]="pushType">City
+            </label>
+            <label class="radio-inline">
+                <input type="radio" id="country" name="type" (change)="radioBtn()" value="country" [(ngModel)]="pushType">Country
+            </label>
+            <div *ngIf="errMsg" id="err" style="color: red;text-align: center;">Enter {{errMsg}}</div>
+
+        </div>
+        <div class="required" style="padding: 0 0 0 20px;">
+            <label class="control-label">ENTER CITY/COUNTRY NAME</label>
+            <input type="text" placeholder="Enter City Name" class="form-control" id="cityTxt" style="width: 34%;margin-bottom: 11px;">
+            <input type="text" placeholder="Enter Country Name" class="form-control" id="countryTxt" style="width: 34%;margin-bottom: 11px;">
+        </div>
+
+        <div class="required" style="padding: 0 0 0 20px;">
+            <label class="control-label">ENTER RADIUS TO SEND NOTIFICATION IN</label>
+            <div class="col-xs-12" style="padding-left: 0px;">
+                <div class="col-xs-2" style="padding-left: 0px;">
+                    <input type="text" placeholder="Enter Radius" class="form-control" id="radius">
+                </div>
+                <div class="col-xs-2">
+                    <select class="form-control" [(ngModel)]="unitType">
+                        <!--<option value="" disabled selected>Select Unit</option>-->
+                        <option value='KM'>KM</option>                            
+                        <option value='M'>M</option>                            
+                    </select>
+                </div>
+                <div class="col-xs-1">
+                    <button type="button" class="btn btn-outline-success" (click)="goForTargetUser1()">Run</button>
+                </div>
+                <i class="fa fa-spinner fa-spin fa-3x" id="loader" aria-hidden="true"></i>
+
+            </div>
+        </div>
+        <div id="tableDiv">
+            <div style="padding: 0 0 0 20px;margin-top: 52px;">
+                <h6 style="margin-bottom: -17px;">
+                    NO. OF SEARCH USER : {{count}}
+                </h6>
+
+                <h6 style="float: right;margin-top: -1%;">
+                    NO. SELECTED USERS: {{userSelect.length}}
+                    <button type="button" class="btn btn-outline-info" data-toggle="modal" id="sendBtn" data-target="#sendPush">Send</button>
+                </h6>
+            </div>
+
+            <div class="table-block card-block widget-body">
+                <div class="container-fluid pl-0 pr-0">
+                    <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+
+                        <div class="panel panel-default">
+                            <table class="table table-hover">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th style="width:6%;text-align: center">
+                                            <input type="checkbox" id="hCheck" (change)="selectAllCheckBox()" />
+                                        </th>
+                                        <th style="width: 6%">#</th>
+                                        <th style="width: 65%;text-align: center">User Name</th>
+                                        <th style="width: 20%;text-align: center">Phone No.</th>
+                                        <th style="width:9%;text-align: center">Location</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="msg" style="color: red">
+                                        <td colspan="9">No data Available</td>
+                                    </tr>
+                                    <tr *ngFor="let item of userPush | paginate: { itemsPerPage: rowsOnPage, currentPage: p, totalItems:count}; let i = index"
+                                        [attr.data-index]="i">
+                                        <td>
+                                            <input type="checkbox" id="rCheck" [checked]="item.checked" (change)="gotocheck(item.username,item.pushToken,$event)" />
+                                        </td>
+                                        <td>{{i+1}}</td>
+                                        <td>
+                                            <a class="custom" (click)="gotoUserDatail(item.username)">{{item.username}}</a>
+                                        </td>
+                                        <td>{{item.phoneNumber}}</td>
+                                        <td *ngIf="item.city == null">N/A</td>
+                                        <td *ngIf="item.city != null">{{item.city}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+
+                                        <td colspan="100">
+
+                                            <pagination-controls (pageChange)="goForTargetUser($event)" class="cursor-pointer"></pagination-controls>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sendPush" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;padding-top: 0%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Send Notification
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-label"></h4>
+            </div>
+            <form [formGroup]="pushForm" (ngSubmit)="sendPush(pushForm)">
+                <fieldset>
+                    <div class="modal-body">
+
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Title</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control checking-field" id="input-2" name="title" [formControl]="pushForm.controls['title']"
+                                    [ngModel]="pushForm.title">
+
+                                <div *ngIf="pushForm.controls['title'].errors && (pushForm.controls['title'].dirty || pushForm.controls['title'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!pushForm.controls['title'].errors.required">
+                                        Title Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Message</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control checking-field" id="input-2" name="message" [formControl]="pushForm.controls['message']"
+                                    [ngModel]="pushForm.message">
+
+                                <div *ngIf="pushForm.controls['message'].errors && (pushForm.controls['message'].dirty || pushForm.controls['message'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!pushForm.controls['message'].errors.required">
+                                        message Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding" style="text-align: center">
+                            <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                <button type="submit" class="btn btn-primary" [disabled]="!pushForm.valid">Submit</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

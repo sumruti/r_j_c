@@ -1,0 +1,25 @@
+.zeroPadding{
+    padding: 0px !important;
+}
+.lBtn {
+    background-color: transparent;
+    border-color: transparent;
+    color : #344154;
+}
+.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    width: 100%;
+    text-align:center;
+}
+.custom{
+    cursor: pointer;
+    color: #22a1e4 !important;
+}
+.table td a.custom:hover {
+    color: blue !important;
+    text-decoration: underline !important;
+}
+div#userDetail td {
+    border: 0;
+}

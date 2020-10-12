@@ -1,0 +1,11 @@
+.custom{
+    cursor: pointer;
+    color: #22a1e4 !important;
+}
+.table td a.custom:hover {
+    color: blue !important;
+    text-decoration: underline !important;
+}
+div#userDetail td {
+    border: 0;
+}

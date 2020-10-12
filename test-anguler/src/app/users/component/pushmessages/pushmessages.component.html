@@ -1,0 +1,61 @@
+<div class="col-xs-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left">
+        <div class="card-header custom-style-header">
+            <div class="row">
+                <div class="col-xs-1" style="float: left;">
+                    <select id="rowpage" class="form-control input-sm" style="width: 85%;" [(ngModel)]="rowsOnPage" (change)="ngOnInit();">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="20">20</option>
+                    <option [ngValue]="40">40</option>
+                    <option [ngValue]="100">100</option>
+                </select>
+                </div>
+                <div class="col-xs-2">
+                    <label class="label-control" style="margin: 7% 0 0 -20%;">records per page</label>
+                </div>
+            </div>
+        </div>
+        <div class="table-block card-block widget-body">
+            <div class="container-fluid pl-0 pr-0">
+                <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+                    <div class="panel panel-default">
+                        <table class="table">
+                            <thead class="thead">
+                                <tr>
+                                    <th style="width: 5%;text-align: center">#</th>
+                                    <th style="width: 55%;text-align: center;">Push Title</th>
+                                    <!--<th style="width: 33%;text-align: center;">Push Message</th>
+                                    <th style="width: 33%;text-align: center;">Push Image</th>
+                                    <th style="width: 33%;text-align: center;">Link</th>                                    -->
+                                    <th style="width: 27%;text-align: center;">Sent On</th>
+                                    <th style="width: 12%;text-align: center;">Number Of Users</th>
+                                    <!--<th style="width: 11%;text-align: center;">Message Type</th>-->
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="msg">
+                                    <td colspan="12">{{this.msg}}</td>
+                                </tr>
+                                <tr *ngFor="let data of pushData; let i = index" [attr.data-index]="i">
+                                    <td>{{i+1}}</td>
+                                    <td>{{data.title}}</td>
+                                    <!--<td>{{data.message}}</td>
+                                    <td>
+                                        <img src={{data.image}} alt="500*500" style="height: 75px;width: 53%;" class="img-responsive">
+                                    </td>
+                                    <td><a target="_blank" href={{data.urlLink}}>{{data.urlLink}}</a></td>                                   -->
+                                    <td>{{data.createdOn | date:'medium'}}</td>
+                                    <td>
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoPushUsers(data.pushId)">{{data.users}}</button>
+                                    </td>
+                                    <!--<td>Intrusive</td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

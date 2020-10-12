@@ -1,0 +1,147 @@
+//================== importing all the essential modules
+@import "../../../theme/styles/variables";
+@import "../../../../../node_modules/bootstrap/scss/_variables";
+@import "../../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../../node_modules/metrojs/release/MetroJs.Full/MetroJs";
+
+
+.info-box{
+    color: $default-color;
+    .info-box-icon{
+        font-size:42px;
+        opacity: 0.9;
+    }
+    h2, h6, span, p{
+        font-weight: $font-light;
+        letter-spacing: 0.03em;
+    }
+    h6{
+        white-space: nowrap;
+        font-size: 14px;
+    }
+    p{
+        font-size: 14px;
+        line-height: 1;
+    }
+}
+
+.small-info-box{
+    padding: 8px;
+    color: $default-color;
+    background-color: $info-color;
+    i{
+        font-size: 28px;
+    }
+    h6, span{
+        font-weight: $font-normal;
+    }
+    h6{
+        font-size: 14px;
+    }
+}
+
+.user-info-box{   
+    .card-block{
+        padding: 3px;
+        img{
+            width: 80px;
+        }
+        h6{
+            display: block;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-weight: 300;
+        }
+        a{
+            font-size: 20px;
+            color: $default-color;
+        }
+    }
+}
+
+
+.live-tile{
+    margin: 0;
+    width: 100%;
+    color: inherit;    
+}
+
+
+.weather{
+    h2, p{
+        font-weight: 300;
+        color: $default-color;
+    }
+    span{
+        color: $default-color;
+    }
+    .current-temperature{
+        font-size: 70px;
+        color: $default-color;
+        display: inline-block;
+    }
+    .degree{
+        color: $default-color;
+        display: inline-block;
+        vertical-align: top;
+        margin-top: 20px;
+        font-size: 20px;
+    }
+    .card-block{
+        padding: 0;
+        canvas{
+            display: inline-block;
+            vertical-align: middle;
+        }
+    }
+    .line{
+        padding: 5px 15px;
+        border-bottom: 1px solid rgba($main-color,0.2);        
+        &:last-child{
+            border:none;
+        }
+    }
+}
+
+
+.card-block.feed{
+    padding: 0;
+}
+.customDrop {
+    background: transparent;
+    border: transparent;
+    color: white;
+}
+.filter{
+    background: rgba(52, 65, 84, 0.18);
+    height: 47px;
+    border-radius: 5px;
+    border: 2px solid rgba(138, 41, 41, 0.21);
+}
+.cartBtn{
+    // margin-left: 72%;
+    display: inline-block;
+    border: none;
+    border-radius: 40px;
+    font-size: 14px;
+    padding: 5px 13px;
+    cursor: pointer;
+    color: #fff;
+    background: #795548;
+    height: 30px;
+}
+.custDrop{
+    // border: 1px solid rgba(17, 17, 17, 0.3) !important;
+    background: transparent;
+    width: 150px !important;
+    padding: 5px 35px 5px 5px; 
+    font-size: 16px;
+    border: 1px solid #ccc;
+    height: 34px !important;
+    margin-top: -13px;
+    width: 138px;
+    display: inline-block;
+        color: white;
+    /* -webkit-appearance: none; */
+}

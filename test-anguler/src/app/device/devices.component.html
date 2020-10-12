@@ -1,0 +1,61 @@
+<!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 each-page-header" style="position: fixed;z-index: 99;">
+    <div class="float-left"> Device </div>
+</div>-->
+<div class="col-xs-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left">
+        <!--<div class="card-header clearfix">
+            <h3 class="card-title">Devices</h3>
+        </div>-->
+        <div class="table-block card-block widget-body">
+            <div class="container-fluid pl-0 pr-0">
+                <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+
+                    <div class="panel panel-default">
+                        <table class="table">
+                            <thead class="thead">
+                                <tr>
+                                    <th>
+                                        Device Name
+                                    </th>
+                                    <th>
+                                        Device Id
+                                    </th>
+                                    <th>
+                                        Device OS
+                                    </th>
+                                    <th>
+                                        Model Number
+                                    </th>
+                                    <th>Device Type</th>
+                                    <th>
+                                        App Version
+                                    </th>
+                                    <th>
+                                        Last Login
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="msg">
+                                    <td colspan="7" style="text-align: center;">{{this.msg}}</td>
+                                </tr>
+                                <tr *ngFor="let device of deviceData">
+                                    <td>{{device.deviceName}}</td>
+                                    <td>{{device.deviceId}}</td>
+                                    <td>{{device.deviceOs}}</td>
+                                    <td>{{device.modelNumber}}</td>
+                                    <td *ngIf="device.deviceType == 1">iOS</td>
+                                    <td *ngIf="device.deviceType == 2">Android</td>
+                                    <td *ngIf="device.deviceType == 3">Browser</td>
+                                    <td>{{device.appVersion}}</td>
+                                    <td>{{device.lastLogin | date:'medium' }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

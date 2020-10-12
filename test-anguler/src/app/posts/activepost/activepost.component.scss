@@ -1,0 +1,142 @@
+.customSearch {
+    // margin-left: 50%;
+    // float: right;
+    // margin-right: 22px;
+    width: 180px;
+    box-sizing: content-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 6px 20px 7px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+.btnCus{
+    // margin-left: 72%;
+   border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #22A1E4;
+    height: 30px;
+}
+.modal-content{
+    border-radius: -2 !important;
+}
+.zeroPadding{
+    padding: 0px !important;
+}
+
+// ----------------------------------------seo style start--------------------------------
+.abc{
+    margin: 5px 0 0 3px;
+    position: fixed;
+    bottom: 10px;
+    left: 15px;
+    z-index: 999;
+    width: 60%;
+}
+.txtXyz {
+    width: 80%;
+    display: inline-block;
+    float: left;
+}
+.customSearc11h {
+    // margin-left: 50%;
+    // float: right;
+    // margin-right: 22px;
+    width: 88%;
+    box-sizing: content-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 6px 20px 7px 11px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+.btnCus11{
+    // margin-left: 72%;
+   border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #22A1E4;
+    height: 30px;
+}
+
+//-----------------------------seo style end -----------------------------------------
+.button-cust{
+    background-color: transparent;
+    border-color: transparent;
+}
+button.button-cust:hover {
+    color: blue;
+}
+.item{
+    display: none;
+}
+.item.active{
+    display: inline-block;
+}
+.modal-lg {
+    max-width: 1100px;
+}
+.item td{
+    border: 0;
+}
+.allImg{
+    margin-top: 3%;
+}
+.carousel-inner > .item > img,
+  .carousel-inner > .item > a > img {
+      width: 100%;
+      margin: auto;
+      height: 330px;
+  }
+img.img-responsive.imgSize {
+    width: 109px;
+    height: 109px;
+    padding-right: 0px;
+    border: 1px solid gainsboro;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+img.profileImg {
+    width: 45px;
+    height: 45px;
+    margin-right: 10px;
+    border-radius: 50px;
+}
+.tableCnt{
+    margin: 12px 0px 0px -11px;
+    overflow: auto;
+    max-height: 378px;
+}
+img.myImage {
+    width: 100%;
+    height: 435px;
+}
+.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    width: 100%;
+    text-align:center;
+}
+.custom{
+    cursor: pointer;
+    color: #22a1e4 !important;
+}
+.table td a.custom:hover {
+    color: blue !important;
+    text-decoration: underline !important;
+}

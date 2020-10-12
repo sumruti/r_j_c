@@ -1,0 +1,80 @@
+<div class="col-xl-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left">
+        <div class="card-header custom-style-header">
+            <div class="row col-xs-12">
+                <div class="col-xs-3 pr-0 zeroPadding">
+                    <select id="rowpage" class="form-control input-sm" style="width: 22%;display: inline-block;" [(ngModel)]="rowsOnPage" (change)="ngOnInit();">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="20">20</option>
+                    <option [ngValue]="40">40</option>
+                    <option [ngValue]="100">100</option>
+                </select>
+                    <label class="label-control">records per page</label>
+                </div>
+                <div class="col-md-9 zeroPadding" style="text-align: right">
+                <button class="btn btn-primary runPushBtn" id="dltBtn" (click) ="gotoDeleteNotification()">Delete</button>
+                <button class="btn btn-primary runPushBtn" style="margin: 0 20px 0px 0px;" (click) ="sendNewPush()">Send Push</button>
+
+                </div>
+            </div>
+        </div>
+        <div class="table-block card-block widget-body">
+            <div class="container-fluid pl-0 pr-0">
+                <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+
+                    <div class="panel panel-default">
+                        <table class="table table-hover">
+                            <thead class="thead">
+                                <tr>
+                                    <th style="width: 7%;text-align: center">Select</th>
+                                    <th style="width: 7%;text-align: center">#</th>
+                                    <th style="width: 14%;text-align: center">Sent On</th>
+                                    <th style="width: 17%;text-align: center">Push Title</th>
+                                    <th style="width: 22%;text-align: center">Push Messages</th>
+                                    <th style="width: 13%;text-align: center">Targeted City</th>
+                                    <th style="width: 14%;text-align: center">Targeted Country</th>
+                                    <th style="width: 11%;text-align: center">No Of Targeted Users</th>
+                                    <th style="width: 6%;text-align: center">Resend</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="msg">
+                                    <td colspan="13" style="text-align: center">No Data Available</td>
+                                </tr>
+                                <tr *ngFor="let item of data | paginate: { itemsPerPage: rowsOnPage, currentPage: p}; let i = index" [attr.data-index]="i">
+                                    <td><input type="checkbox" id="rCheck" [checked]="item.checked" (change)="gotocheck(item._id,$event)" /></td>
+                                    <td>{{i+1}}</td>
+                                    <td>{{item.sendOn | date}}</td>
+                                    <td>{{item.title}}</td>
+                                    <td>{{item.message}}</td>
+                                    <td *ngIf="item.city == null">N/A</td>
+                                    <td *ngIf="item.city != null">{{item.city}}</td>
+
+                                    <td *ngIf="item.country == null">N/A</td>
+                                    <td *ngIf="item.country != null">{{item.country}}</td>
+                                    <!-- <td>{{item.targereduser.length}}</td> -->
+                                    <td>
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoTargetedUser(item._id)">{{item.targereduser.length}}</button>
+                                    </td>
+                                    <td>
+                                        <button class="button-cust">
+                                            <i class="fa fa-repeat fa-2x" style="cursor: pointer;" (click)="gotoResendNotification(item._id)"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="100">
+                                        <pagination-controls (pageChange)="p = $event" class="cursor-pointer float-right"></pagination-controls>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

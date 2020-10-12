@@ -1,0 +1,14 @@
+.required label:after { 
+    content:"*";
+    color: red;
+}
+.error{
+    color: red;
+    font-size: 11px;
+    padding: 1px;
+}
+.success{
+     color:green;
+    font-size: 11px;
+    padding: 1px;
+}

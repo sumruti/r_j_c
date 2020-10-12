@@ -1,0 +1,253 @@
+<div class="col" style="width: 65%;margin: 0 0 0 6%;">
+        <div widget class="card">
+            <div class="card-header">
+                <span>SEO Setting</span>
+            </div>
+            <div class="card-block widget-body">
+                <form [formGroup]="seoSetting" (ngSubmit)="submitForm(seoSetting)">
+                    <fieldset>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-2 control-label">Title</label>
+                            <div class="col-xs-10">
+                                <input type="text" class="form-control checking-field" id="input-2" name="title" [formControl]="seoSetting.controls['title']"
+                                    [ngModel]="title">
+    
+                                <div *ngIf="seoSetting.controls['title'].errors && (seoSetting.controls['title'].dirty || seoSetting.controls['title'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!seoSetting.controls['title'].errors.required">
+                                        Title is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-2 control-label">Description</label>
+                            <div class="col-xs-10">
+                                <input type="text" class="form-control checking-field" id="input-2" name="description" [formControl]="seoSetting.controls['description']"
+                                    [ngModel]="description">
+    
+                                <div *ngIf="seoSetting.controls['description'].errors && (seoSetting.controls['description'].dirty || seoSetting.controls['description'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!seoSetting.controls['description'].errors.required">
+                                        Description is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-2 control-label">Keyword</label>
+                            <div class="col-xs-10">
+                                <!-- <input type="text" class="form-control checking-field" id="input-2" name="keyword" [formControl]="seoSetting.controls['keyword']"
+                                    [ngModel]="seoSetting.keyword">
+    
+                                <div *ngIf="seoSetting.controls['keyword'].errors && (seoSetting.controls['keyword'].dirty || seoSetting.controls['keyword'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!seoSetting.controls['keyword'].errors.required">
+                                        Keyword is required
+                                    </div>
+                                </div> -->
+                                <div id="tags">
+                                    <input type="text" value="" placeholder="Add a keyword" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding" style="text-align: center;">
+                            <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                <input type="hidden" class="abc" value="">
+                                <button type="submit" class="btn btn-primary" [disabled]="!seoSetting.valid">Save</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="seoSettingDelete()">Delete</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div class="col" style="width: 65%;margin: 0 0 0 6%;">
+        <div widget class="card">
+            <div class="card-header">
+                <span>Social Media Setting</span>
+            </div>
+            <div class="card-block widget-body">
+    
+                <div class="clearfix" style="float: right;">
+                    <ul class="nav nav-tabs top pull-xs-left">
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#post">Facebook</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#seo">Twitter</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" style="border: white;">
+                    <div class="tab-pane fade in active col-sm-12 " id="post">
+                        <form [formGroup]="socialMedia" (ngSubmit)="facebookData(socialMedia)">
+                            <fieldset>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <div class="col-xs-4"></div>
+                                    <div class="col-xs-4" style="text-align: center;">
+                                        <label>Select Image</label>
+                                        <div class="image-wrapper">
+                                            <input type="file" (change)="upload(input)" #input class="img-upload-btn" ng2FileSelect [uploader]="uploader" />
+                                            <img src={{url}} *ngIf="url" width="100%" style="height: 168pxx;">
+                                            <img src="assets/img/app/no-image.png" *ngIf="!url" width="100%" style="height: 168px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4"></div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">Image</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="image" [formControl]="socialMedia.controls['image']"
+                                            [ngModel]="url" readonly>
+    
+                                        <div *ngIf="socialMedia.controls['image'].errors && (socialMedia.controls['image'].dirty || socialMedia.controls['image'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!socialMedia.controls['image'].errors.required">
+                                                image is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">Title</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="title" [formControl]="socialMedia.controls['title']"
+                                            [ngModel]="fData.title">
+    
+                                        <div *ngIf="socialMedia.controls['title'].errors && (socialMedia.controls['title'].dirty || socialMedia.controls['title'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!socialMedia.controls['title'].errors.required">
+                                                title is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">Description</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="description" [formControl]="socialMedia.controls['description']"
+                                            [ngModel]="fData.description">
+    
+                                        <div *ngIf="socialMedia.controls['description'].errors && (socialMedia.controls['description'].dirty || socialMedia.controls['description'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!socialMedia.controls['description'].errors.required">
+                                                Description is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">AltTag</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="altTag" [formControl]="socialMedia.controls['altTag']"
+                                            [ngModel]="fData.altTag">
+    
+                                        <div *ngIf="socialMedia.controls['altTag'].errors && (socialMedia.controls['altTag'].dirty || socialMedia.controls['altTag'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!socialMedia.controls['altTag'].errors.required">
+                                                altTag is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding" style="text-align: center;">
+                                    <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                        <input type="hidden" class="abc" value="">
+                                        <button type="submit" class="btn btn-primary" [disabled]="!socialMedia.valid">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="socialMediaDelete()">Delete</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade col-sm-12 tableCnt" id="seo">
+                        <form [formGroup]="tSocialMedia" (ngSubmit)="twitterData(tSocialMedia)">
+                            <fieldset>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <div class="col-xs-4"></div>
+                                    <div class="col-xs-4" style="text-align: center;">
+                                        <label>Select Image</label>
+                                        <div class="image-wrapper">
+                                            <input type="file" (change)="uploadTwitter(input1)" #input1 class="img-upload-btn" ng2FileSelect [uploader]="uploader" />
+                                            <img src={{tUrl}} *ngIf="tUrl" width="100%" style="height: 168pxx;">
+                                            <img src="assets/img/app/no-image.png" *ngIf="!tUrl" width="100%" style="height: 168px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-4"></div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">Image</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="image" [formControl]="tSocialMedia.controls['image']"
+                                            [ngModel]="tUrl" readonly>
+    
+                                        <div *ngIf="tSocialMedia.controls['image'].errors && (tSocialMedia.controls['image'].dirty || tSocialMedia.controls['image'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!tSocialMedia.controls['image'].errors.required">
+                                                image is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">Title</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="title" [formControl]="tSocialMedia.controls['title']"
+                                            [ngModel]="tData.title">
+    
+                                        <div *ngIf="tSocialMedia.controls['title'].errors && (tSocialMedia.controls['title'].dirty || tSocialMedia.controls['title'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!tSocialMedia.controls['title'].errors.required">
+                                                title is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">Description</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="description" [formControl]="tSocialMedia.controls['description']"
+                                            [ngModel]="tData.description">
+    
+                                        <div *ngIf="tSocialMedia.controls['description'].errors && (tSocialMedia.controls['description'].dirty || tSocialMedia.controls['description'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!tSocialMedia.controls['description'].errors.required">
+                                                Description is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding">
+                                    <label for="input-2" class="col-xs-2 control-label">AltTag</label>
+                                    <div class="col-xs-10">
+                                        <input type="text" class="form-control checking-field" id="input-2" name="altTag" [formControl]="tSocialMedia.controls['altTag']"
+                                            [ngModel]="tData.altTag">
+    
+                                        <div *ngIf="tSocialMedia.controls['altTag'].errors && (tSocialMedia.controls['altTag'].dirty || tSocialMedia.controls['altTag'].touched)"
+                                            class="alert alert-danger">
+                                            <div [hidden]="!tSocialMedia.controls['altTag'].errors.required">
+                                                altTag is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-xs-12 zeroPadding" style="text-align: center;">
+                                    <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                        <input type="hidden" class="abc" value="">
+                                        <button type="submit" class="btn btn-primary" [disabled]="!tSocialMedia.valid">Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="tMediaDelete()">Delete</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div> -->
+    

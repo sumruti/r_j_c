@@ -1,0 +1,479 @@
+<!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 each-page-header" style="position: fixed;z-index: 99;">
+    <div class="float-left">Admin Posts </div>
+    
+</div>-->
+<div class="modal fade" id="create-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;padding-top: 0%;">
+    <div class="modal-dialog" role="document" style="top: -6%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                Create Post
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="modal-label"></h4>
+            </div>
+            <form [formGroup]="createPost" (ngSubmit)="Submit(createPost)">
+                <div class="modal-body">
+                    <div *ngIf="msg" style="color: red">
+                        <!-- Please select image -->
+                    </div>
+                    <div class="row prl-10">
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div>
+
+
+                                <!--<button class="btn btn-main btn-block" type="button">
+                                    <span *ngIf="!image"><i class="fa fa-upload"></i> Select Image... </span>
+                                    <span *ngIf="image"><i class="fa fa-refresh"></i> Change Image... </span>
+                                </button>-->
+                                <label>Select Image</label>
+                                <div class="image-wrapper">
+                                    <input type="file" (change)="upload(input)" #input class="img-upload-btn" ng2FileSelect [uploader]="uploader" />
+                                    <!--<i *ngIf="image" class="fa fa-times delete-img" (click)="removeImage()"></i>-->
+                                    <img src={{url}} *ngIf="url" width="100%" style="height: 250px;">
+                                    <img src="assets/img/app/no-image.png" *ngIf="!url" width="100%" style="height: 250px;">
+                                    <div class="loader" id="imgLoader">
+                                        <i class="fa fa-spinner fa-spin fa-3x" id="loader" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="feature">Feature</label>
+                            <select class="form-control input-sm" id="feature" [formControl]="createPost.controls['Feature']" [(ngModel)]="Feature">
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div> -->
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="user">User</label>
+                            <input type="text" list="userdata" value={{user_value}} class="form-control" autocomplete="off" id="user" placeholder="search..."
+                                [formControl]="createPost.controls['membername']" [ngModel]="user_value" (keyup)="gotoUserSearch(myuser.value)"
+                                #myuser>
+                            <div id="userdata_parent">
+                                <ul id="userdata">
+                                    <li class="li_userdata" (click)="sendUservalue(user.username)" *ngFor="let user of userlist">{{user.username}}</li>
+                                </ul>
+                            </div>
+                            <div *ngIf="createPost.controls['membername'].errors && (createPost.controls['membername'].dirty || createPost.controls['membername'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!createPost.controls['membername'].errors.required">
+                                    User Name is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="category">Category</label>
+                            <select class="form-control" (click)="gotoGetCategory()" id="category" [formControl]="createPost.controls['category']" [(ngModel)]="category">
+                                <option value="" disabled selected>Select Category</option>
+                                <option *ngFor="let cat of user_category" [value]="cat.name">{{cat.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter Post title" [formControl]="createPost.controls['productName']"
+                                [ngModel]="createPost.productName">
+                            <div *ngIf="createPost.controls['productName'].errors && (createPost.controls['productName'].dirty || createPost.controls['productName'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!createPost.controls['productName'].errors.required">
+                                    Title is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row prl-10">
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" placeholder="Enter Post Description" [formControl]="createPost.controls['description']"
+                                [ngModel]="createPost.description">
+                            <div *ngIf="createPost.controls['description'].errors && (createPost.controls['description'].dirty || createPost.controls['description'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!createPost.controls['description'].errors.required">
+                                    Description is required
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" placeholder="Enter Price In USD" [formControl]="createPost.controls['price']"
+                                [ngModel]="createPost.price" pattern="^[0-9]+$">
+                            <div *ngIf="createPost.controls['price'].errors && (createPost.controls['price'].dirty || createPost.controls['price'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!createPost.controls['price'].errors.required">
+                                    Price is required
+                                </div>
+                                <div [hidden]="!createPost.controls['price'].errors.pattern">
+                                    Enter Valid Price
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row prl-10">
+
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="negotiable">Negotiable</label>
+                            <select class="form-control" id="negotiable" [formControl]="createPost.controls['negotiable']" [(ngModel)]="negotiable">
+                                <option value="" disabled selected>Select negotiable</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="loc">Location</label>
+                            <input type="text" class="form-control" id="location" placeholder="Enter Location" [formControl]="createPost.controls['location']"
+                                [ngModel]="createPost.location">
+                        </div>
+                    </div>
+                    <div class="row prl-10">
+
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="lat">Latitude</label>
+                            <input type="text" class="form-control" id="latitude" [formControl]="createPost.controls['latitude']" [ngModel]="createPost.latitude"
+                                readonly>
+
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="long">Longitude</label>
+                            <input type="text" class="form-control" id="longitude" [formControl]="createPost.controls['longitude']" [ngModel]="createPost.longitude"
+                                readonly>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="float-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="!createPost.valid">Create</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="col-xl-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left">
+        <div class="card-header custom-style-header">
+            <div class="row col-xs-12">
+                <div class="col-xs-3 pr-0 zeroPadding">
+                    <select id="rowpage" class="form-control input-sm" style="width: 22%;display: inline-block;" [(ngModel)]="rowsOnPage" (change)="ngOnInit();">
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="20">20</option>
+                        <option [ngValue]="40">40</option>
+                        <option [ngValue]="100">100</option>
+                    </select>
+                    <label class="label-control">records per page</label>
+                </div>
+                <!--<div class="col-xs-2">
+                    <label class="label-control" style="margin: 7% 0 0 -20%;">records per page</label>
+                </div>-->
+
+                <!--<div class="col-xs-2">
+
+                    <select class="form-control" id="categoryPost" (change)="selectCat()">
+                                <option value="" disabled selected>Category</option>
+                                <option *ngFor="let cat of user_category" [value]="cat.name">{{cat.name}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-1">
+                    <button class="btn btnCus" (click)="clearDrop()" style="margin: 3% 0 0 -23%;">Clear</button>
+                </div>-->
+                <!--<div class="col-xs-2">
+                    <select style="margin: 0 0 0 -13%;" class="form-control" id="subCategoryPost" #subc (change)="selectSubCat(subc.value)">
+                                <option value="" disabled selected>Sub Category</option>
+                                <option *ngFor = "let subcat of post_subCategory" [value]="subcat.name">{{subcat.name}}</option>
+                    </select>
+                    <div id="errmsg" *ngIf="this.errmsg" style="color: red">
+                        {{this.errmsg}}
+                    </div>
+                </div>-->
+                <!--<input class="customSearch" placeholder="Search.." type="text" style="margin: -24px 21px 0 0;" [(ngModel)]="searchTerm" (keyup)="getPageOnSearch(searchPost.value)"
+                    #searchPost>-->
+
+                <div class="col-md-9 zeroPadding" style="text-align: right">
+                    <input class="customAdminSearch" placeholder="Search by posted by,id,title" type="text" (keyup)="getPageOnSearch(myinput.value)"
+                        #myinput>
+                    <select class="form-control" id="categoryPost" (change)="selectCat()" style="width: 19%;display: inline-block;margin-right: 1%;">
+                        <option value="" disabled selected>Category</option>
+                        <option *ngFor="let cat of user_category" [value]="cat.name">{{cat.name}}</option>
+                    </select>
+                    <div style="float: right;">
+
+                        <button class="btn btnCus" (click)="clearDrop()">Clear</button>
+
+                        <button class="btn btn-primary btnCus" id="addBtn" data-toggle="modal" data-target="#create-modal" (click)="clearModal()">Create</button>
+                    </div>
+                </div>
+                <!--<div class="col-md-3 zeroPadding">
+                    <div class="col-xs-12 zeroPadding" style="float: right;text-align: right">
+
+                        <button class="btn btnCus" (click)="clearDrop()">Clear</button>
+
+                        <button class="btn btn-primary buttonCus" data-toggle="modal" data-target="#create-modal">Create</button>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+        <div class="table-block card-block widget-body">
+            <div class="container-fluid pl-0 pr-0">
+                <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+
+                    <div class="panel panel-default">
+                        <table class="table table-hover">
+                            <thead class="thead">
+                                <tr>
+                                    <th style="width: 5%;text-align: center">#</th>
+                                    <th style="width: 17%;text-align: center">User Name</th>
+                                    <th style="width:13%;cursor: pointer;">Post Id</th>
+                                    <th style="width: 13%;text-align: center">Posted On</th>
+                                    <!--<th style="width: 10%">Category</th>
+                                    <th style="width: 8%;text-align: center">Sub-Category</th>-->
+                                    <th style="width: 14%;text-align: center">Image</th>
+                                    <th style="width: 31%;text-align: center" class="thTitle">Post Title</th>
+                                    <!--<th style="width: 9%;text-align: center">Posted Price</th>
+                                    <th style="width: 9%;text-align: center">Currency</th>-->
+                                    <th style="width: 8%;text-align: center" class="thAction">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="this.msg">
+                                    <td colspan="13" style="text-align: center">{{this.msg}}</td>
+                                </tr>
+                                <tr *ngFor="let post of adminPost | paginate: { itemsPerPage: rowsOnPage, currentPage: p}; let i = index" [attr.data-index]="i">
+                                    <td>{{i+1}}</td>
+                                    <td>
+                                        <a class="custom" (click)="gotoUserDatail(post.username)">{{post.username}}</a>
+                                    </td>
+                                    <td>{{post.postId}}</td>
+                                    <td>{{post.postedOn | date}}</td>
+                                    <!--<td *ngIf="post.category == null">N/A</td>
+                                    <td *ngIf="post.category != null">{{post.category}}</td>
+                                    <td *ngIf="post.subCategory == null">N/A</td>
+                                    <td *ngIf="post.subCategory != null">{{post.subCategory}}</td>-->
+                                    <td>
+                                        <img src={{post.mainUrl}} alt="500*500" style="height: 75px;width: 51%;" class="img-responsive">
+                                    </td>
+
+                                    <td>{{post.productName}}</td>
+                                    <!--<td style="text-align: center;">{{post.price}}</td>
+                                    <td>{{post.currency}}</td>-->
+                                    <td>
+                                        <div class="btn-hover" *ngIf="btnFlag">
+                                            <button data-toggle="modal" class="btn btn-danger btn-xs" (click)="gotoDeletePost(post.postId)">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </div>
+
+                                        <div class="btn-hover" *ngIf="btnFlag">
+                                            <button data-toggle="modal" data-target="#edit-modal" class="btn btn-primary btn-xs" (click)="editPostData(post)">
+                                                <span class="glyphicon glyphicon-pencil"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="100">
+                                        <pagination-controls (pageChange)="p = $event" class="cursor-pointer float-right"></pagination-controls>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;padding-top: 0%;">
+    <div class="modal-dialog" role="document" style="top: -6%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                Edit Post
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title" id="modal-label"></h4>
+            </div>
+            <form [formGroup]="editPost" (ngSubmit)="updatePost(editPost)">
+                <div class="modal-body">
+                    <div class="row prl-10">
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <div>
+                                <label>Change Image</label>
+                                <div class="image-wrapper">
+                                    <input type="file" (change)="upload(input)" #input class="img-upload-btn" ng2FileSelect [uploader]="uploader" />
+                                    <img src={{url}} *ngIf="url" width="100%" style="height: 250px;">
+                                    <img src="assets/img/app/no-image.png" *ngIf="!url" width="100%" style="height: 250px;">
+                                    <div class="loader" id="imgLoader">
+                                        <i class="fa fa-spinner fa-spin fa-3x" id="loader" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="feature">Feature</label>
+                            <select class="form-control input-sm" id="feature" [formControl]="editPost.controls['Feature']" [(ngModel)]="Feature">
+                                <option value="True">True</option>
+                                <option value="False">False</option>
+                            </select>
+                        </div> -->
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="user">User</label>
+                            <input type="text" list="userdata" value={{user_value}} class="form-control" autocomplete="off" id="user" placeholder="search..."
+                                [formControl]="editPost.controls['membername']" [(ngModel)]="obj.username" readonly>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="category">Category</label>
+                            <select class="form-control" (click)="gotoGetCategory()" id="category" [formControl]="editPost.controls['category']" [(ngModel)]="category">
+                                <option value={{category}}>{{category}}</option>
+                                <option *ngFor="let cat of user_category" [value]="cat.name">{{cat.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="title">Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="Enter Post title" [formControl]="editPost.controls['productName']"
+                                [(ngModel)]="obj.productName">
+                            <div *ngIf="editPost.controls['productName'].errors && (editPost.controls['productName'].dirty || editPost.controls['productName'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!editPost.controls['productName'].errors.required">
+                                    Title is required
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row prl-10">
+
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="description">Description</label>
+                            <input type="text" class="form-control" id="description" placeholder="Enter Post Description" [formControl]="editPost.controls['description']"
+                                [(ngModel)]="obj.description">
+                            <div *ngIf="editPost.controls['description'].errors && (editPost.controls['description'].dirty || editPost.controls['description'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!editPost.controls['description'].errors.required">
+                                    Description is required
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" placeholder="Enter Price In USD" [formControl]="editPost.controls['price']"
+                                [ngModel]="obj.price" pattern="^[0-9]+$">
+                            <div *ngIf="editPost.controls['price'].errors && (editPost.controls['price'].dirty || editPost.controls['price'].touched)"
+                                class="alert alert-danger">
+                                <div [hidden]="!editPost.controls['price'].errors.required">
+                                    Price is required
+                                </div>
+                                <div [hidden]="!editPost.controls['price'].errors.pattern">
+                                    Enter Valid Price
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row prl-10">
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="negotiable">Negotiable</label>
+                            <select class="form-control" id="negotiable" [formControl]="editPost.controls['negotiable']" [(ngModel)]="negotiable">
+                                <option value="" disabled selected>Select negotiable</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="loc">Location</label>
+                            <input type="text" class="form-control" id="editLocation" placeholder="Enter Location" [formControl]="editPost.controls['location']"
+                                [(ngModel)]="obj.place">
+                        </div>
+                    </div>
+                    <div class="row prl-10">
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="lat">Latitude</label>
+                            <input type="text" class="form-control" id="editLatitude" [formControl]="editPost.controls['latitude']" [(ngModel)]="obj.latitude"
+                                readonly>
+                        </div>
+                        <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                            <label for="long">Longitude</label>
+                            <input type="text" class="form-control" id="editLongitude" [formControl]="editPost.controls['longitude']" [(ngModel)]="obj.longitude"
+                                readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="float-right">
+                        <button type="submit" class="btn btn-primary" [disabled]="!editPost.valid">Update</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="userDetail" role="dialog" style="top: -140px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding: 20px 0px 20px 0px;">
+                <div class="container-fluid">
+                    <div class="item active col-xs-12">
+                        <div class="col-sm-12 tableContent" *ngFor="let data of detailData">
+                            <div class="col-xs-12 zeroPadding" style="margin: 0 0 2% 0%;text-align: center;" *ngIf="data.profilePicUrl == null">
+                                <span>
+                                    <img class="img-circle" src="assets/img/users/default_user.jpg" style="width: 50%;height: 255px;border-radius: 50%;">
+                                </span>
+                            </div>
+                            <div class="col-xs-12 zeroPadding" style="margin: 0 0 2% 0%;text-align: center;" *ngIf="data.profilePicUrl != null">
+                                <span>
+                                    <img class="img-circle" src={{data.profilePicUrl}} style="width: 50%;height: 255px;border-radius: 50%;" onError="this.src='assets/img/users/default_user.jpg';">
+                                </span>
+                            </div>
+                            <table class="custom-table table table-striped">
+                                <tbody>
+                                    <!--<tr>
+                                        <td class="pull-left">Full Name</td>
+                                        <td class="pull-right">adcdc</td>
+                                    </tr>-->
+                                    <tr>
+                                        <td class="pull-left">User Full Name</td>
+                                        <td class="pull-right">{{data.fullName}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="pull-left">User Name</td>
+                                        <td class="pull-right">{{data.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pull-left">Email</td>
+                                        <td class="pull-right">{{data.email}}</td>
+                                    </tr>
+                                    <tr *ngIf="data.gender == null">
+                                        <td class="pull-left">Gender</td>
+                                        <td class="pull-right">Not Specified</td>
+                                    </tr>
+                                    <tr *ngIf="data.gender != null">
+                                        <td class="pull-left">Gender</td>
+                                        <td class="pull-right">{{data.gender}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pull-left">Phone</td>
+                                        <td class="pull-right">{{data.phoneNumber}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

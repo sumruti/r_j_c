@@ -1,0 +1,439 @@
+<!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 each-page-header" style="position: fixed;z-index: 99;">
+    <div class="float-left">Active Posts </div>
+    <button class="btn btn-primary buttonCus" id="btnreject" style="float: right; margin-right: 16%;" (click)="gotoRejectUser();">Reject</button>
+
+</div>-->
+
+<div class="col-xl-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left">
+        <div class="card-header custom-style-header">
+            <div class="row">
+                <div class="col-xs-1" style="float: left;">
+                    <select id="rowpage" class="form-control input-sm" style="width: 100%;" [(ngModel)]="rowsOnPage" (change)="ngOnInit();">
+                        <option [ngValue]="10">10</option>
+                        <option [ngValue]="20">20</option>
+                        <option [ngValue]="40">40</option>
+                        <option [ngValue]="100">100</option>
+                    </select>
+                </div>
+                <div class="col-xs-2">
+                    <label class="label-control" style="margin: 7% 0 0 -10%;">records per page</label>
+                </div>
+
+
+                <!--<div class="col-xs-2">
+                    <select style="margin: 0 0 0 -13%;" class="form-control" id="subCategory" #subc (change)="selectSubCat(subc.value)">
+                                <option value="" disabled selected>Sub Category</option>
+                                <option *ngFor = "let subcat of user_subCategory" [value]="subcat.name">{{subcat.name}}</option>
+                    </select>
+                    <div id="errmsg" *ngIf="this.errmsg" style="color: red">
+                        {{this.errmsg}}
+                    </div>
+                </div>-->
+                <div class="col-xs-4" style="text-align: center">
+                    <input class="customSearch" placeholder="Search by id, title, posted by.." type="text" [(ngModel)]="searchTerm" (keyup)="getPageOnSearch(myinput.value)"
+                        #myinput>
+                </div>
+                <div class="col-xs-5 text-right">
+
+                    <select class="form-control" id="category" (change)="selectCat()" style="width: 201px;display: inline-block;">
+                        <option value="" disabled selected>Category</option>
+                        <option *ngFor="let cat of user_category" [value]="cat.name">{{cat.name}}</option>
+                    </select>
+
+                    <button class="btn btnCus" (click)="clearDrop()" title="clear">Clear</button>
+                    <button class="btn btnCus" id="banBtn" (click)="gotoBanPost()">Ban</button>
+                </div>
+            </div>
+        </div>
+        <div class="table-block card-block widget-body">
+            <div class="container-fluid pl-0 pr-0">
+                <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+
+                    <div class="panel panel-default">
+                        <table class="table table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                            <thead class="thead">
+                                <tr>
+                                    <th style="width:6%;text-align: center">
+                                        <input type="checkbox" (change)="selectAllCheckBox()" />
+                                    </th>
+                                    <th style="width: 4%">#</th>
+                                    <th style="width: 12%">Post Id</th>
+                                    <th style="cursor: pointer;width: 14%;text-align: center">
+                                        <mfDefaultSorter by="Username" (click)="getSort('name')">Posted By</mfDefaultSorter>
+
+                                    </th>
+                                    <th style="cursor: pointer;width: 9%;text-align: center">
+                                        <mfDefaultSorter by="PostedOn" (click)="getSort('date')">Posted On</mfDefaultSorter>
+                                    </th>
+                                    <!--<th style="width: 9%">Category</th>
+                                    <th style="width: 9%">Sub-Category</th>-->
+                                    <th style="width: 28%;text-align: center">Post Title</th>
+                                    <!--<th style="width: 7%">Posted Price</th>
+                                    <th style="width: 7%">Currency</th>-->
+                                    <th style="width: 7%;text-align: center">Status</th>
+                                    <th style="width: 6%;text-align: center">Offer Count</th>
+                                    <th style="width: 6%;text-align: center">View Count</th>
+                                    <th style="width: 8%;text-align: center">Comment Count</th>
+                                    <th style="width: 7%;text-align: center">Favourite Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="this.msg">
+                                    <td colspan="13" style="text-align: center">{{this.msg}}</td>
+                                </tr>
+                                <tr *ngFor="let post of activePost | paginate: { itemsPerPage: rowsOnPage, currentPage: p, totalItems:count }; let i = index"
+                                    [attr.data-index]="i">
+                                    <td>
+                                        <input type="checkbox" [checked]="post.checked" (change)="gotocheck(post.postId,$event)" />
+                                    </td>
+                                    <td>{{(p-1)*rowsOnPage+i+1}}</td>
+                                    <td>
+                                        <button class="button-cust" style="cursor: pointer;" type="button" data-toggle="modal" data-target="#postDetail" (click)="gotoPostDetail(post.postedBy,post.postId);">{{post.postId}}</button>
+                                    </td>
+                                    <td>
+                                        <a class="custom" (click)="gotoUserDatail(post.postedBy)">{{post.postedBy}}</a>
+                                    </td>
+                                    <td>{{post.postedOn | date}}</td>
+                                    <!--<td *ngIf="post.category == null">N/A</td>
+                                    <td *ngIf="post.category != null">{{post.category}}</td>
+                                    <td *ngIf="post.subCategory == 'null'">N/A</td>
+                                    <td *ngIf="post.subCategory != 'null'">{{post.subCategory}}</td>-->
+                                    <td>{{post.productName}}</td>
+                                    <!--<td style="text-align: center;">{{post.price}}</td>
+                                    <td style="text-align: center;">{{post.currency}}</td>-->
+                                    <td *ngIf="post.sold == 1">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoStatus(post.postId)">Sold</button>
+                                    </td>
+                                    <td *ngIf="post.sold == 0">
+                                        Selling
+                                    </td>
+                                    <td *ngIf="post.sold == 2">
+                                        Sold Somewhere Else
+                                    </td>
+                                    <!--<td style="text-align: center;">{{post.offermade}}</td>-->
+                                    <!--<td style="text-align: center;" *ngIf="post.offermade == 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button">{{post.offermade}}</button>
+                                    </td>
+                                    <td style="text-align: center;" *ngIf="post.offermade > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoPostOffer(post.postId)">{{post.offermade}}</button>
+                                    </td>-->
+                                    <td>
+                                        <button class="button-cust" type="button" (click)="gotoPostOffer(post.postId)">
+                                            <i class="ion-plus-circled fa-2x" style="cursor: pointer;"></i>
+                                        </button>
+                                    </td>
+                                    <td style="text-align: center;" *ngIf="post.views == 0">{{post.views}}</td>
+                                    <td style="text-align: center;" *ngIf="post.views > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoPostViews(post.postId)">{{post.views}}</button>
+                                    </td>
+                                    <td style="text-align: center;" *ngIf="post.comments == 0">{{post.comments}}</td>
+                                    <td style="text-align: center;" *ngIf="post.comments > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoCommentlist(post.postId)">{{post.comments}}</button>
+                                    </td>
+                                    <td style="text-align: center;" *ngIf="post.likes == 0">{{post.likes}}</td>
+                                    <td style="text-align: center;" *ngIf="post.likes > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoFavorite(post.postId,post.type)">{{post.likes}}</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="100">
+                                        <pagination-controls (pageChange)="getPage($event)" class="cursor-pointer float-right"></pagination-controls>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="postDetail" role="dialog" style="top: -99px;">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body" style="padding: 20px 0px 20px 0px;height: 510px;">
+                <button type="button" style="margin: -22px 2px 0 0;" class="close" data-dismiss="modal">&times;</button>
+                <div class="container-fluid" *ngFor="let post of postDetail">
+                    <div class="carousel-inner">
+                        <div class="item active col-xs-12">
+                            <div class="col-sm-7" style="padding-left: 0px;">
+                                <div id="myCarousel" class="carousel slide" data-ride="carousel" style="width: 100%">
+                                    <div class="carousel-inner" role="listbox">
+                                        <div class="mySlides" *ngIf="post.mainUrl != null">
+                                            <img class="myImage" src={{post.mainUrl}} alt="image1">
+                                            <div class="abc">
+                                                <div class="txtXyz" style="text-align: center">
+                                                    <input class="customSearc11h mainImgAltText" placeholder="enter alt text" type="text" value={{post.mainImgAltText}}>
+                                                </div>
+                                                <div class="txtBtn">
+                                                    <button class="btnCus11" (click)="seoAlterSave('mainImgAltText')">Save</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="mySlides" *ngIf="post.imageUrl1 != null" style="display: none">
+                                            <img class="myImage" src={{post.imageUrl1}} alt="image2">
+                                            <div class="abc">
+                                                <div class="txtXyz" style="text-align: center">
+                                                    <input class="customSearc11h imageUrl1AltText" placeholder="enter alt text" type="text" value={{post.imageUrl1AltText}}>
+                                                </div>
+                                                <div class="txtBtn">
+                                                    <button class="btnCus11" (click)="seoAlterSave('imageUrl1AltText')">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mySlides" *ngIf="post.imageUrl2 != null" style="display: none">
+                                            <img class="myImage" src={{post.imageUrl2}} alt="image3">
+                                            <div class="abc">
+                                                <div class="txtXyz" style="text-align: center">
+                                                    <input class="customSearc11h imageUrl2AltText" placeholder="enter alt text" type="text" value={{post.imageUrl2AltText}}>
+                                                </div>
+                                                <div class="txtBtn">
+                                                    <button class="btnCus11" (click)="seoAlterSave('imageUrl2AltText')">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mySlides" *ngIf="post.imageUrl3 != null" style="display: none">
+                                            <img class="myImage" src={{post.imageUrl3}} alt="image4">
+                                            <div class="abc">
+                                                <div class="txtXyz" style="text-align: center">
+                                                    <input class="customSearc11h imageUrl3AltText" placeholder="enter alt text" type="text" value={{post.imageUrl3AltText}}>
+                                                </div>
+                                                <div class="txtBtn">
+                                                    <button class="btnCus11" (click)="seoAlterSave('imageUrl3AltText')">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mySlides" *ngIf="post.imageUrl4 != null" style="display: none">
+                                            <img class="myImage" src={{post.imageUrl4}} alt="image5">
+                                            <div class="abc">
+                                                <div class="txtXyz" style="text-align: center">
+                                                    <input class="customSearc11h imageUrl4AltText" placeholder="enter alt text" type="text" value={{post.imageUrl4AltText}}>
+                                                </div>
+                                                <div class="txtBtn">
+                                                    <button class="btnCus11" (click)="seoAlterSave('imageUrl4AltText')">Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <a class="left carousel-control" (click)="plusDivs(-1)" role="button" data-slide="prev" style="height: 435px;">
+                                        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="top: 50%;color: white;"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="right carousel-control" (click)="plusDivs(1)" role="button" data-slide="next" style="height: 435px;">
+                                        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" style="top: 50%;color: white;"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 zeroPadding">
+                                <!-- <div class="col-xs-12 zeroPadding">
+                                        <div>
+                                            <span class="pull-left"><img class="profileImg" src={{post.profilePicUrl}} onError="this.src='http://www.onemediatv.com/public/common/images/_default_user_social.gif';"></span>
+                                        </div>
+                                        <span class="">
+                                        <span style="font-weight: bold">{{post.fullName}}</span><br>
+                                        <span>{{post.username}}</span>
+                                        </span>
+                                    </div> -->
+
+                                <div>
+                                    <div class="clearfix" style="float: right;">
+                                        <ul class="nav nav-tabs top pull-xs-left">
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#post">Post</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" data-toggle="tab" href="#seo">SEO</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="tab-content" style="border: white;">
+                                        <div class="tab-pane fade in active col-sm-12 tableCnt" id="post">
+                                            <table class="custom-table table table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td class="pull-left">Title</td>
+                                                        <td class="pull-right" style="text-align: right;">{{post.productName}}</td>
+                                                    </tr>
+                                                    <tr *ngIf="post.description == null">
+                                                        <td class="pull-left">Description</td>
+                                                        <td class="pull-right">N/A</td>
+                                                    </tr>
+                                                    <tr *ngIf="post.description != null">
+                                                        <td class="pull-left">Description</td>
+                                                        <td class="pull-right" style="width: 74%;text-align: justify;">{{post.description}}</td>
+                                                    </tr>
+                                                    <tr *ngIf="post.place == 'null' ">
+                                                        <td class="pull-left">Location</td>
+                                                        <td class="pull-right">N/A</td>
+                                                    </tr>
+                                                    <tr *ngIf="post.place != 'null' ">
+                                                        <td class="pull-left">Location</td>
+                                                        <td class="pull-right" style="text-align: right;width: 63%;">{{post.place}}</td>
+                                                    </tr>
+                                                    <tr *ngIf="category == null">
+                                                        <td class="pull-left">Category</td>
+                                                        <td class="pull-right">N/A</td>
+                                                    </tr>
+                                                    <tr *ngIf="category != null">
+                                                        <td class="pull-left">Category</td>
+                                                        <td class="pull-right" style="text-align: right;">{{category}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pull-left">Currency</td>
+                                                        <td class="pull-right" style="text-align: right;">{{post.currency}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pull-left">Price</td>
+                                                        <td class="pull-right" style="text-align: right;">{{post.price}}</td>
+                                                    </tr>
+                                                    <tr *ngIf="post.negotiable == 0">
+                                                        <td class="pull-left">Negotiable</td>
+                                                        <td class="pull-right" style="text-align: right;">No</td>
+                                                    </tr>
+                                                    <tr *ngIf="post.negotiable == 1">
+                                                        <td class="pull-left">Negotiable</td>
+                                                        <td class="pull-right" style="text-align: right;">Yes</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pull-left">Posted On</td>
+                                                        <td class="pull-right" style="text-align: right;">{{post.postedOn | date}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="pull-left">Status</td>
+                                                        <td class="pull-right" style="text-align: right;">{{post.sold | status}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane fade col-sm-12 tableCnt" id="seo">
+                                            <form [formGroup]="seoSetting" (ngSubmit)="submitForm(seoSetting)">
+                                                <fieldset>
+                                                    <div class="form-group col-xs-12 zeroPadding">
+                                                        <label for="input-2" class="col-xs-2 control-label">Title</label>
+                                                        <div class="col-xs-10">
+                                                            <input type="text" class="form-control checking-field" id="input-2" name="seoTitle" [formControl]="seoSetting.controls['seoTitle']"
+                                                                [ngModel]="post.seoTitle">
+
+                                                            <div *ngIf="seoSetting.controls['seoTitle'].errors && (seoSetting.controls['seoTitle'].dirty || seoSetting.controls['seoTitle'].touched)"
+                                                                class="alert alert-danger">
+                                                                <div [hidden]="!seoSetting.controls['seoTitle'].errors.required">
+                                                                    Title is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-xs-12 zeroPadding">
+                                                        <label for="input-2" class="col-xs-2 control-label">Description</label>
+                                                        <div class="col-xs-10">
+                                                            <input type="text" class="form-control checking-field" id="input-2" name="seoDescription" [formControl]="seoSetting.controls['seoDescription']"
+                                                                [ngModel]="post.seoDescription">
+
+                                                            <div *ngIf="seoSetting.controls['seoDescription'].errors && (seoSetting.controls['seoDescription'].dirty || seoSetting.controls['seoDescription'].touched)"
+                                                                class="alert alert-danger">
+                                                                <div [hidden]="!seoSetting.controls['seoDescription'].errors.required">
+                                                                    Description is required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-xs-12 zeroPadding">
+                                                        <label for="input-2" class="col-xs-2 control-label">Keyword</label>
+                                                        <div class="col-xs-10">
+                                                            <input type="text" class="form-control checking-field" id="input-2" name="seoKeyword" [formControl]="seoSetting.controls['seoKeyword']"
+                                                                [ngModel]="post.seoKeyword">
+
+                                                            <div *ngIf="seoSetting.controls['seoKeyword'].errors && (seoSetting.controls['seoKeyword'].dirty || seoSetting.controls['seoKeyword'].touched)"
+                                                                class="alert alert-danger">
+                                                                <div [hidden]="!seoSetting.controls['seoKeyword'].errors.required">
+                                                                    Keyword is required
+                                                                </div>
+                                                            </div>
+                                                            <!-- <div id="tags">
+                                                            <input type="text" value="" placeholder="Add a keyword" />
+                                                        </div> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group col-xs-12 zeroPadding" style="text-align: center;">
+                                                        <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                                            <!-- <input type="hidden" class="abc" value=""> -->
+                                                            <button type="submit" class="btn btn-primary" [disabled]="!seoSetting.valid">Save</button>
+                                                            <!-- <button type="button" class="btn btn-default" data-dismiss="modal" (click)="seoSettingDelete()">Delete</button> -->
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="userDetail" role="dialog" style="top: -140px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding: 20px 0px 20px 0px;">
+                <div class="container-fluid">
+                    <div class="item active col-xs-12">
+                        <div class="col-sm-12 tableContent" *ngFor="let data of detailData">
+                            <div class="col-xs-12 zeroPadding" style="margin: 0 0 2% 0%;text-align: center;" *ngIf="data.profilePicUrl == null">
+                                <span>
+                                    <img class="img-circle" src="assets/img/users/default_user.jpg" style="width: 50%;height: 255px;border-radius: 50%;">
+                                </span>
+                            </div>
+                            <div class="col-xs-12 zeroPadding" style="margin: 0 0 2% 0%;text-align: center;" *ngIf="data.profilePicUrl != null">
+                                <span>
+                                    <img class="img-circle" src={{data.profilePicUrl}} style="width: 50%;height: 255px;border-radius: 50%;" onError="this.src='assets/img/users/default_user.jpg';">
+                                </span>
+                            </div>
+                            <table class="custom-table table table-striped">
+                                <tbody>
+                                    <tr>
+                                        <td class="pull-left">User Full Name</td>
+                                        <td class="pull-right">{{data.fullName}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="pull-left">User Name</td>
+                                        <td class="pull-right">{{data.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pull-left">Email</td>
+                                        <td class="pull-right">{{data.email}}</td>
+                                    </tr>
+                                    <tr *ngIf="data.gender == null">
+                                        <td class="pull-left">Gender</td>
+                                        <td class="pull-right">Not Specified</td>
+                                    </tr>
+                                    <tr *ngIf="data.gender != null">
+                                        <td class="pull-left">Gender</td>
+                                        <td class="pull-right">{{data.gender}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pull-left">Phone</td>
+                                        <td class="pull-right">{{data.phoneNumber}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

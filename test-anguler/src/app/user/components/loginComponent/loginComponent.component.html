@@ -1,0 +1,131 @@
+<!--login page-->
+<div class="login-container">
+    <div class="login-box row">
+        <!--<div class=""></div> -->
+        <!--<div class="col-xl-4 col-md-6 col-xs-10 offset-xl-4 offset-md-3 offset-xs-1">-->
+        <div class="card-left">
+             <label class="login-head">Yelo Admin</label>
+                <!-- <label class="login-tagline">Yelo</label> -->
+            <!--<img src="../../../../assets/img/users/loginLaptop.png" alt="Rogi" class="laptop">
+            <img src="../../../../assets/img/users/loginiPhone.png" alt="Rogi" class="iPhone">-->
+            <img src="assets/img/users/home_macbookair11_front.png" alt="Rogi" class="laptop">
+            <img src="assets/img/users/home1_filtered_iphone7plussilver_portrait.png" alt="Rogi" class="iPhone">
+            </div>    
+        <div class="card">
+            <div *ngIf="this.errMsg" class="error">
+                    <div class="alert alert-danger">
+                        {{this.errMsg}}
+                    </div>
+                </div>
+            <div class="card-block text-xs-center">
+                <!--<img src="../../../../assets/img/logo/offerup.png" alt="Rogi-Logo" class="rogi-logo">-->
+                <img src="assets/img/users/logo.png" alt="Rogi-Logo" class="rogi-logo">
+                <!--<a routerLink="/register" class="btn btn-link transition bottom-15">Don't have an account? Sign up now!</a>-->
+                <!--login form-->
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form)" class=" text-xs-left">
+                    <div class="form-group login-group">
+                        <!--validation for email format-->
+                        <div class="input-side">
+                            <!--<img src="../../../../assets/img/users/username.png" alt="Rogi-Logo" class="input-image">-->
+                            <img src="assets/img/users/username.png" alt="Rogi-Logo" class="input-image">
+                        </div>
+                        <input [formControl]="username" class="form-control checking-field" placeholder="Username" type="text" [(ngModel)]="form.username">
+                        <!--<span class="help-block text-danger" *ngIf="form.get('email').touched && form.get('email').hasError('required')">Email is required</span>
+                        <span class="help-block text-danger" *ngIf="form.get('email').touched && form.get('email').hasError('invalidEmail')">Invalid email address</span>-->
+                    </div>
+                    <!--validation for passwords minimum length-->
+                    <div class="form-group login-group">
+                        <div class="input-side">
+                            <!--<img src="../../../../assets/img/users/password.png" alt="Rogi-Logo" class="input-image">-->
+                            <img src="assets/img/users/password.png" alt="Rogi-Logo" class="input-image">
+                        </div>
+                        <input [formControl]="password" class="form-control checking-field" placeholder="Password" type="password" [(ngModel)]="form.password">
+                        <span class="help-block text-danger" *ngIf="form.get('password').touched && form.get('password').hasError('required')">Password is required</span>
+                        <span class="help-block text-danger" *ngIf="form.get('password').touched && form.get('password').hasError('minlength')">Password isn't long enough, minimum of 6 characters</span>
+                    </div>
+                    <!--checkbox to remember the logged in user-->
+                    <div class="form-group login-group">
+                        <!--<button class="btn btn-link forgot transition" data-toggle="modal" data-target="#Signup-modal">Signup</button>-->
+                       <button class="btn btn-main btn-block login" type="submit" [disabled]="!form.valid">Login</button>
+                       
+                    </div>
+                    <div class="form-group login-group">
+                        <!--<button class="btn btn-link forgot transition" data-toggle="modal" data-target="#Signup-modal">Signup</button>-->
+                    </div>
+                </form>
+                <!--<a [routerLink]="['/reset']" class="btn btn-link">test</a>-->
+            </div>
+        </div>
+    <!--</div>-->
+    </div>
+</div>
+
+<div class="modal fade" id="Signup-modal" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header text-transform">
+                    Signup
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="modal-label"></h4>
+                </div>
+                <form [formGroup]="Signup" (ngSubmit)="Register(Signup)">
+                    <div class="modal-body">
+                        <div class="row prl-10">
+                            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                                <label for="input-2">Email</label>
+                                <input type="text" class="form-control checking-field" id="input-2" minlength="4" maxlength="24" name="Email" placeholder="Enter your Email" [formControl]="Signup.controls['Email']"
+                                    [ngModel]="Signup.Email" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
+
+                                    <div *ngIf="Signup.controls['Email'].errors && (Signup.controls['Email'].dirty || Signup.controls['Email'].touched)" class="alert alert-danger">
+                                        <div [hidden]="!Signup.controls['Email'].errors.required">
+                                        Email is required
+                                        </div>
+                                        <div [hidden]="!Signup.controls['Email'].errors.pattern">
+                                        Enter valid Email
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row prl-10">
+                            <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                                <label for="input-2">Password</label>
+                                <input type="password" class="form-control" id="input-2" name="Password" [formControl]="Signup.controls['Password']" placeholder="Enter your Password"
+                                    [ngModel]="Signup.Password">
+                                    
+                                     <div *ngIf="Signup.controls['Password'].errors && (Signup.controls['Password'].dirty || Signup.controls['Password'].touched)" class="alert alert-danger">
+                                        <div [hidden]="!Signup.controls['Password'].errors.required">
+                                        password is required
+                                        </div>
+                                        <div [hidden]="!Signup.controls['Password'].errors.minlength">
+                                        Password must be at least 6 characters long.
+                                        </div>
+                                    </div>
+                            </div>
+                            </div>
+                            <div class="row prl-10">
+                                <div class="form-group col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 required">
+                                    <label for="input-2">Confirm Password</label>
+                                    <input type="password" class="form-control checking-field" id="input-2" minlength="6" name="conpass" placeholder="Enter your password" [formControl]="Signup.controls['conpass']"
+                                        [ngModel]="Signup.conpass">
+                                        <div *ngIf="Signup.controls['conpass'].errors && (Signup.controls['conpass'].dirty || Signup.controls['conpass'].touched)" class="alert alert-danger">
+                                            <div *ngIf="Signup.controls['conpass'].value != Signup.controls['Password'].value" class="alert alert-danger">
+                                                Password not match
+                                            </div>
+                                            <div [hidden]="!Signup.controls['conpass'].errors.required">
+                                                Password is required
+                                            </div>
+                                        </div>
+                                </div>
+                            </div>
+                        
+                        <div class="float-right">
+                            <button type="submit" class="btn btn-primary" [disabled]="!Signup.valid">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+
+                    </div>
+                </form>
+               
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,56 @@
+@import "theme/styles/variables";
+@import "theme/styles/mixins";
+
+@import "../../node_modules/bootstrap/scss/bootstrap";
+// @import "../../node_modules/pace/themes/pace-theme-flash";
+@import "../../node_modules/glyphicons-halflings/scss/glyphicons-halflings";
+@import "../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
+@import "../../node_modules/dropzone/dist/dropzone";
+// @import "../../node_modules/i"
+
+
+
+@import "theme/styles/bootstrap-override";
+@import "theme/styles/libs-override";
+
+
+@import "theme/styles/font";
+@import "theme/styles/base";
+
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+// ============= custom sass =============
+@import "./sass/common.scss";
+@import "./sass/modal.scss";
+@import "./sass/form.scss";
+@import "./sass/table.scss";
+.button-cust{
+    background-color: transparent;
+    border-color: transparent;
+    color: #22a1e4;
+}
+button.button-cust:hover {
+    color: blue;
+    text-decoration:underline;
+}
+.each-page-content {
+    position: absolute;
+    top: 6em;
+}
+.loadBtn {
+    border: 1px solid;
+    border-radius: 4px;
+    background-color: #2199e8;
+    color: white;
+}
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #eceeef;
+    text-align: center;
+}
+.table td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #eceeef;
+    text-align: center;
+}

@@ -1,0 +1,680 @@
+<!--<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12 each-page-header" style="position: fixed;z-index: 99;">
+    <div class="float-left"> Users </div>
+    <button class="btn btn-primary buttonCus" id="btnreject" style="float: right; margin-right: 16%;" (click)="gotoRejectUser();">Reject</button>
+
+</div>-->
+
+<div class="col-xs-12 bottom-15 pl-0 pr-0 each-page-content">
+    <div widget class="card col-xs-12 zeroPadding float-left">
+        <div class="card-header custom-style-header">
+            <div class="row col-xs-12">
+                <div class="col-xs-3 pr-0 zeroPadding">
+                    <select id="rowpage" class="form-control input-sm" style="width: 29%;display: inline-block;" [(ngModel)]="rowsOnPage" (change)="ngOnInit();">
+                    <option [ngValue]="10">10</option>
+                    <option [ngValue]="20">20</option>
+                    <option [ngValue]="40">40</option>
+                    <option [ngValue]="100">100</option>
+                </select>
+                    <label class="label-control">records per page</label>
+                </div>
+                <div class="col-md-4 zeroPadding" style="text-align: center">
+
+                    <input class="customSearch" placeholder="Search.." type="text" [(ngModel)]="searchTerm" (keyup)="getPageOnSearch(myinput.value)"
+                        #myinput>
+                </div>
+                <div class="col-md-5 zeroPadding">
+                    <div class="col-xs-12 zeroPadding" style="float: right;text-align: right">
+                        <button class="btn btn-primary Userbtn" data-toggle="modal" data-target="#sendAllPush">Send All Push</button>
+                        <button class="btn btn-primary Userbtn" id="btnSend" data-toggle="modal" data-target="#sendPush">Send Push</button>
+                        <button class="btn btn-primary Userbtn" id="btnreject" (click)="gotoRejectUser();">Reject</button>
+                        <button class="btn btn-primary Userbtn" id="btnDlt" (click)="gotoDeleteUser();">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="table-block card-block widget-body">
+            <div class="container-fluid pl-0 pr-0">
+                <div class="col-xs-12 col-md-12 col-lg-12 pl-0 pr-0">
+
+                    <div class="panel panel-default">
+                        <table class="table table-hover" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                            <thead class="thead">
+                                <tr>
+                                    <th style="width:6%;text-align: center">
+                                        <input type="checkbox" id="hCheck" (change)="selectAllCheckBox()" />
+                                    </th>
+                                    <th style="width:6%;text-align: center;">#</th>
+                                    <th style="cursor: pointer;width:11%" (click)="getSort('name')">
+                                        <!--<mfDefaultSorter by="Username"  *ngIf="sortCondition=='nameasc' || sortCondition=='namedesc'"></mfDefaultSorter>-->
+                                        <mfDefaultSorter by="Username" (click)="getSort('name')">Username</mfDefaultSorter>
+
+
+                                    </th>
+                                    <th style="width:11%">Email</th>
+                                    <th style="width:9%">Phone No.</th>
+                                    <th style="cursor: pointer;width:10% ">
+                                        <!--<span (click)="getSort('date')">Registered On </span><i *ngIf="sortCondition=='dateasc' || sortCondition=='datedesc'" class="icon ion-arrow-down-b up"></i>-->
+                                        <!--<button class="button-cust" ></button>-->
+                                        <mfDefaultSorter by="RegisteredDate" (click)="getSort('date')">Registered On</mfDefaultSorter>
+                                    </th>
+                                    <th style="width:7%">Devices</th>
+                                    <th style="width:8%">Posts</th>
+                                    <!--<th style="width:6%">Rating</th>-->
+                                    <th style="width:8%">Favourites</th>
+                                    <th style="width:9%;text-align: center">Offers</th>
+                                    <th style="width:8%">Followers</th>
+                                    <th style="width:8%">Following</th>
+                                    <th style="width:10%">Verified By</th>
+                                </tr>
+                                <!--<tr>
+
+                                </tr>-->
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="this.msg">
+                                    <td colspan="13" style="text-align: center">{{this.msg}}</td>
+                                </tr>
+                                <tr *ngFor="let user of usersList| paginate: { itemsPerPage: rowsOnPage, currentPage: p, totalItems:count }; let i = index"
+                                    [attr.data-index]="i" id={{user.oId}}>
+                                    <td>
+                                        <input type="checkbox" id="rCheck" [checked]="user.checked" (change)="gotocheck(user.username,$event)" />
+                                    </td>
+                                    <th scope="row" style="text-align: center">{{(p-1)*rowsOnPage+i+1}}</th>
+                                    <td>
+                                        <!--<a (click)="gotoUserDatail(user)">{{user.username}}</a>-->
+                                        <a class="custom" (click)="gotoUserDatail(user.username)">{{user.username}}</a>
+                                    </td>
+                                    <td *ngIf="user.email == null">N/A</td>
+                                    <td *ngIf="user.email != null">{{user.email}}</td>
+                                    <td *ngIf="user.phoneNumber == null">N/A</td>
+                                    <td *ngIf="user.phoneNumber != null">{{user.phoneNumber}}</td>
+                                    <td>{{user.createdOn | date}}</td>
+                                    <td>
+                                        <!--<div class="btn-hover">-->
+                                        <button class="button-cust" type="button" (click)="gotoDevices(user.username)">
+                                            <i class="ion-android-phone-portrait fa-2x" style="cursor: pointer;"></i>
+                                            </button>
+                                        <!--</div>-->
+                                    </td>
+                                    <td *ngIf="user.posts == 0">{{user.posts}}</td>
+                                    <td *ngIf="user.posts > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoPost(user.username)">{{user.posts}}</button>
+                                    </td>
+                                    <!--<td *ngIf="user.ratings == null">N/A</td>
+                                    <td *ngIf="user.ratings != null">{{user.ratings}}</td>-->
+                                    <td *ngIf="user.wishlistCount == 0">{{user.wishlistCount}}</td>
+                                    <td *ngIf="user.wishlistCount > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoWishlist(user.username)">{{user.wishlistCount}}</button>
+                                    </td>
+                                    <td>
+                                        <button class="button-cust" type="button" (click)="gotoPurchases(user.username)">
+                                            <i class="ion-plus-circled fa-2x" style="cursor: pointer;"></i>
+                                        </button>
+                                    </td>
+                                    <td *ngIf="user.followers == 0">{{user.followers}}</td>
+                                    <td *ngIf="user.followers > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotoFollowers(user.username)">{{user.followers}}</button>
+                                    </td>
+                                    <td *ngIf="user.following == 0">{{user.following}}</td>
+                                    <td *ngIf="user.following > 0">
+                                        <button class="button-cust" style="cursor: pointer;" type="button" (click)="gotofollowing(user.username)">{{user.following}}</button>
+                                    </td>
+                                    <td>
+                                        <span *ngIf="user.facebookVerified == null"><i class="fa fa-facebook-square fa-2x" aria-hidden="true" style="color:#80808b"></i></span>
+                                        <span *ngIf="user.facebookVerified != null"><i class="fa fa-facebook-square fa-2x" aria-hidden="true" style="color: blue;" title="Facebook Verified"></i></span>
+
+                                        <span *ngIf="user.googleVerified == null"><i class="fa fa-google-plus-square fa-2x" aria-hidden="true" style="color:#80808b"></i></span>
+                                        <span *ngIf="user.googleVerified != null"><i class="fa fa-google-plus-square fa-2x" aria-hidden="true" style="color: red;" title="Google Verified"></i></span>
+
+                                        <span *ngIf="user.emailVerified == null"><i class="fa fa-envelope-o fa-2x" aria-hidden="true" style="color:#80808b"></i></span>
+                                        <span *ngIf="user.emailVerified != null"><i class="fa fa-envelope-o fa-2x" aria-hidden="true" style="color:#12b4f6" title="E-Mail Verified"></i></span>
+
+                                        <span *ngIf="user.paypalUrl == null"><i class="fa fa-paypal fa-2x" aria-hidden="true" style="color:#80808b"></i></span>
+                                        <span *ngIf="user.paypalUrl != null"><i class="fa fa-paypal fa-2x" aria-hidden="true" style="color:darkblue" title="Paypal Verified"></i></span>
+                                    </td>
+
+
+                                    <!--<td style="width: 15%" class="action">
+                                        <button data-toggle="modal" data-target="#delete-modal" class="btn btn-danger btn-xs" (click)="dltuser(user)">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button>
+
+                                        <button data-toggle="modal" data-target="#edit-modal" class="btn btn-primary btn-xs" (click)="updateuser(user)">
+                                          <span class="glyphicon glyphicon-pencil"></span>
+                                       </button>
+
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="100">
+                                        <pagination-controls (pageChange)="getPage($event)" class="cursor-pointer float-right"></pagination-controls>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userDetail" role="dialog" style="top: -140px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" style="padding: 20px 0px 20px 0px;">
+                <div class="container-fluid">
+                    <div class="item active col-xs-12">
+                        <div class="col-sm-12 tableContent" *ngFor="let data of detailData">
+                            <div class="col-xs-12 zeroPadding" style="margin: 0 0 2% 0%;text-align: center;" *ngIf="data.profilePicUrl == null">
+                                <span><img class="img-circle" src="assets/img/users/default_user.jpg" style="width: 50%;height: 255px;border-radius: 50%;"></span>
+                            </div>
+                            <div class="col-xs-12 zeroPadding" style="margin: 0 0 2% 0%;text-align: center;" *ngIf="data.profilePicUrl != null">
+                                <span><img class="img-circle" src={{data.profilePicUrl}} style="width: 50%;height: 255px;border-radius: 50%;" onError="this.src='assets/img/users/default_user.jpg';"></span>
+                            </div>
+                            <table class="custom-table table table-striped">
+                                <tbody>
+                                    <!--<tr>
+                                        <td class="pull-left">Full Name</td>
+                                        <td class="pull-right">adcdc</td>
+                                    </tr>-->
+                                    <tr>
+                                        <td class="pull-left">User Full Name</td>
+                                        <td class="pull-right">{{data.fullName}}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="pull-left">User Name</td>
+                                        <td class="pull-right">{{data.username}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pull-left">Email</td>
+                                        <td class="pull-right">{{data.email}}</td>
+                                    </tr>
+                                    <tr *ngIf="data.gender == null">
+                                        <td class="pull-left">Gender</td>
+                                        <td class="pull-right">Not Specified</td>
+                                    </tr>
+                                    <tr *ngIf="data.gender != null">
+                                        <td class="pull-left">Gender</td>
+                                        <td class="pull-right">{{data.gender}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pull-left">Phone</td>
+                                        <td class="pull-right">{{data.phoneNumber}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="sendPush" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;padding-top: 0%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Send Push
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-label"></h4>
+            </div>
+            <form [formGroup]="pushForm" (ngSubmit)="sendPush(pushForm)">
+                <fieldset>
+                    <div class="modal-body">
+
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-1 control-label">Title</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control checking-field" id="input-2" name="title" [formControl]="pushForm.controls['title']"
+                                    [ngModel]="pushForm.title">
+
+                                <div *ngIf="pushForm.controls['title'].errors && (pushForm.controls['title'].dirty || pushForm.controls['title'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!pushForm.controls['title'].errors.required">
+                                        Title Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Contracted Message</label>
+                            <div class="col-xs-9">
+                                <textarea cols="4" rows="5" style="resize: none" class="form-control" id="input-2" name="contMsg" [formControl]="pushForm.controls['contMsg']"
+                                    [ngModel]="pushForm.contMsg"></textarea>
+                                <div *ngIf="pushForm.controls['contMsg'].errors && (pushForm.controls['contMsg'].dirty || pushForm.controls['contMsg'].touched)"
+                                    class="alert alert-danger">
+
+                                    <div [hidden]="!pushForm.controls['contMsg'].errors.required">
+                                        Message is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Expanded Title</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="input-2" name="expTitle" [formControl]="pushForm.controls['expTitle']" [ngModel]="pushForm.expTitle">
+                                <div *ngIf="pushForm.controls['expTitle'].errors && (pushForm.controls['expTitle'].dirty || pushForm.controls['expTitle'].touched)"
+                                    class="alert alert-danger">
+
+                                    <div [hidden]="!pushForm.controls['expTitle'].errors.required">
+                                        Title is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Expanded Message</label>
+                            <div class="col-xs-9">
+                                <textarea cols="4" rows="5" style="resize: none" class="form-control" id="input-2" name="expMsg" [formControl]="pushForm.controls['expMsg']"
+                                    [ngModel]="pushForm.expMsg"></textarea>
+                                <div *ngIf="pushForm.controls['expMsg'].errors && (pushForm.controls['expMsg'].dirty || pushForm.controls['expMsg'].touched)"
+                                    class="alert alert-danger">
+
+                                    <div [hidden]="!pushForm.controls['expMsg'].errors.required">
+                                        Message is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="photo" class="col-xs-3 control-label">Image</label>
+                            <div class="col-xs-9">
+                                <input type="file" id="photo" accept="image/*" ng2FileSelect [uploader]="uploader" />
+                            </div>
+
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="msgType" class="col-xs-3 control-label">Message Type</label>
+                            <div class="col-xs-9">
+                                <select class="form-control input-sm" style="width: 50%" id="feature" [formControl]="pushForm.controls['Type']" [(ngModel)]="Type">
+                                <option value="intrusive">Intrusive</option>
+                                <option value="non-intrusive">Non Intrusive</option>
+                            </select>
+                            </div>
+                        </div>-->
+                        <div class="form-group col-xs-12 zeroPadding" style="text-align: center">
+                            <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                <button type="submit" class="btn btn-primary" [disabled]="!pushForm.valid">Submit</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sendAllPush" tabindex="-1" role="dialog" aria-labelledby="modal-label" style="display: none;padding-top: 0%;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                Send Push
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                <h4 class="modal-title" id="modal-label"></h4>
+            </div>
+            <form [formGroup]="allPushForm" (ngSubmit)="sendAllPush(allPushForm)">
+                <fieldset>
+                    <div class="modal-body">
+
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-1 control-label">Title</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control checking-field" id="input-2" name="title" [formControl]="allPushForm.controls['title']"
+                                    [ngModel]="allPushForm.title">
+
+                                <div *ngIf="allPushForm.controls['title'].errors && (allPushForm.controls['title'].dirty || allPushForm.controls['title'].touched)"
+                                    class="alert alert-danger">
+                                    <div [hidden]="!allPushForm.controls['title'].errors.required">
+                                        Title Required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Contracted Message</label>
+                            <div class="col-xs-9">
+                                <textarea cols="4" rows="5" style="resize: none" class="form-control" id="input-2" name="contMsg" [formControl]="allPushForm.controls['contMsg']"
+                                    [ngModel]="allPushForm.contMsg"></textarea>
+                                <div *ngIf="allPushForm.controls['contMsg'].errors && (allPushForm.controls['contMsg'].dirty || allPushForm.controls['contMsg'].touched)"
+                                    class="alert alert-danger">
+
+                                    <div [hidden]="!allPushForm.controls['contMsg'].errors.required">
+                                        Message is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Expanded Title</label>
+                            <div class="col-xs-9">
+                                <input type="text" class="form-control" id="input-2" name="expTitle" [formControl]="allPushForm.controls['expTitle']" [ngModel]="allPushForm.expTitle">
+                                <div *ngIf="allPushForm.controls['expTitle'].errors && (allPushForm.controls['expTitle'].dirty || allPushForm.controls['expTitle'].touched)"
+                                    class="alert alert-danger">
+
+                                    <div [hidden]="!allPushForm.controls['expTitle'].errors.required">
+                                        Title is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="input-2" class="col-xs-3 control-label">Expanded Message</label>
+                            <div class="col-xs-9">
+                                <textarea cols="4" rows="5" style="resize: none" class="form-control" id="input-2" name="expMsg" [formControl]="allPushForm.controls['expMsg']"
+                                    [ngModel]="allPushForm.expMsg"></textarea>
+                                <div *ngIf="allPushForm.controls['expMsg'].errors && (allPushForm.controls['expMsg'].dirty || allPushForm.controls['expMsg'].touched)"
+                                    class="alert alert-danger">
+
+                                    <div [hidden]="!allPushForm.controls['expMsg'].errors.required">
+                                        Message is required
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="photo" class="col-xs-3 control-label">Image</label>
+                            <div class="col-xs-9">
+                                <input type="file" id="allPhoto" accept="image/*" ng2FileSelect [uploader]="uploader" />
+                            </div>
+
+                        </div>
+                        <div class="form-group col-xs-12 zeroPadding">
+                            <label for="msgType" class="col-xs-3 control-label">Message Type</label>
+                            <div class="col-xs-9">
+                                <select class="form-control input-sm" style="width: 50%" id="feature" [formControl]="allPushForm.controls['Type']" [(ngModel)]="Type">
+                                <option value="intrusive">Intrusive</option>
+                                <option value="non-intrusive">Non Intrusive</option>
+                            </select>
+                            </div>
+                        </div>-->
+                        <div class="form-group col-xs-12 zeroPadding" style="text-align: center">
+                            <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                                <button type="submit" class="btn btn-primary" [disabled]="!allPushForm.valid">Submit</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="modal fade" id="sendPush" tabindex="-1" role="dialog" aria-labelledby="modal-label">
+    <div class="modal-dialog modal-sm">
+        <div class="background_mockup" id="phone_mock">
+            <img src="assets/img/users/mockup.png">
+            <div id="all_content">
+                <span id="close_button" (click)="closeModal()">
+                    <a>X</a>
+                </span>
+                <div id="phone_content">
+                    <div>
+                        <div *ngIf="pushImgUrl == null">
+                            <span title="Click to upload image" data-toggle="modal" data-backdrop="false" style="cursor:pointer" data-target="#croppingBoxPush"
+                                type="button"><img src="assets/img/users/bg_img.png" id="content_img"></span>
+                        </div>
+                        <div *ngIf="pushImgUrl != null">
+                            <span title="Click to upload image" data-toggle="modal" data-backdrop="false" style="cursor:pointer" data-target="#croppingBoxPush"
+                                type="button"><img src={{pushImgUrl}} id="content_img"></span>
+                        </div>
+                        <div data-toggle="modal" data-backdrop="false" data-target="#detailsBoxPush" style="padding:5px 17px;color:black;cursor:pointer">
+                            <h1></h1>
+                            <p></p>
+                            <div *ngIf="pMsg == 1">
+                                <h1>{{pushTitle}}</h1>
+                                <p>{{pushMsg}}</p>
+                            </div>
+                            <div *ngIf="pMsg == 0">
+                                <h1>Click to fill your push details!</h1>
+                                <p>Many users have recently joined ChippMate! Check now to see if anyone new is in your area!
+                                </p>
+                            </div>
+                            <div>
+                            </div>
+                        </div>
+                        <div *ngIf="pMsg == 1">
+                            <button id="sendxx" (click)="sendNotification()">SEND NOTIFICATION</button>
+                        </div>
+                        <div *ngIf="pMsg == 0">
+                            <button id="send">MANDATORY FIELDS ARE MISSING</button>
+                        </div>
+                        <div>
+                            <button id="know_more">KNOW MORE</button>
+                            <button id="cancel">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="croppingBoxPush" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="col-8 offset-2">
+                    <input type="file" (change)="fileChange(editinput)" #editinput class="m-img-upload-btn" />
+                    <button class="btn btn-success btn-block" type="button">
+                            <i class="fa fa-upload"></i> Choose images...
+                    </button>
+                </div>
+                <div class="card images-container">
+                    <div *ngFor="let image of images; let i=index;" class="m-image-wrapper">
+                        <i class="fa fa-times m-delete-img" (click)="removeImage(i)"></i>
+                        <img [attr.src]="image">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="confirmUploadPush()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="detailsBoxPush" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4>Push Details</h4>
+                <form [formGroup]="notificationM" (ngSubmit)="pushUsers(notificationM)">
+                    <div class="form-group">
+                        <label>Push Title</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Push Title" name="contTitle" [formControl]="notificationM.controls['line2']">
+                        <div *ngIf="notificationM.controls['line2'].errors && (notificationM.controls['line2'].dirty || notificationM.controls['line2'].touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!notificationM.controls['line2'].errors.required">
+                                Title Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea formControlName="message" cols="30" rows="10" class="form-control" [formControl]="notificationM.controls['message']"></textarea>
+                        <div *ngIf="notificationM.controls['message'].errors && (notificationM.controls['message'].dirty || notificationM.controls['message'].touched)"
+                            class="alert alert-danger">
+
+                            <div [hidden]="!notificationM.controls['message'].errors.required">
+                                Message is required
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Url</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Url" [formControl]="notificationM.controls['url']" pattern="https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,}">
+                        <div *ngIf="notificationM.controls['url'].errors && (notificationM.controls['url'].dirty || notificationM.controls['url'].touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!notificationM.controls['url'].errors.pattern">
+                                Enter Valid Link
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-12 zeroPadding">
+                        <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                            <button type="submit" class="btn btn-primary" [disabled]="!notificationM.valid">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="sendAllPush" tabindex="-1" role="dialog" aria-labelledby="modal-label">
+    <div class="modal-dialog modal-sm">
+        <div class="background_mockup" id="phone_mock">
+            <img src="assets/img/users/mockup.png">
+            <div id="all_content">
+                <span id="close_button" (click)="closeModal()">
+                    <a>X</a>
+                </span>
+                <div id="phone_content">
+                    <div>
+                        <div *ngIf="pushImgUrl == null">
+                            <span title="Click to upload image" data-toggle="modal" data-backdrop="false" style="cursor:pointer" data-target="#croppingBoxAllPush"
+                                type="button"><img src="assets/img/users/bg_img.png" id="content_img"></span>
+                        </div>
+                        <div *ngIf="pushImgUrl != null">
+                            <span title="Click to upload image" data-toggle="modal" data-backdrop="false" style="cursor:pointer" data-target="#croppingBoxAllPush"
+                                type="button"><img src={{pushImgUrl}} id="content_img"></span>
+                        </div>
+                        <div data-toggle="modal" data-backdrop="false" data-target="#detailsBoxAllPush" style="padding:5px 17px;color:black;cursor:pointer">
+                            <h1></h1>
+                            <p></p>
+                            <div *ngIf="pMsgA == 1">
+                                <h1>{{pushTitleA}}</h1>
+                                <p>{{pushMsgA}}</p>
+                            </div>
+                            <div *ngIf="pMsgA == 0">
+                                <h1>Click to fill your push details!</h1>
+                                <p>Many users have recently joined ChippMate! Check now to see if anyone new is in your area!
+                                </p>
+                            </div>
+                            <div>
+                            </div>
+                        </div>
+                        <div *ngIf="pMsgA == 1">
+                            <button id="sendxx" (click)="sendNotificationAll()">SEND NOTIFICATION</button>
+                        </div>
+                        <div *ngIf="pMsgA == 0">
+                            <button id="send">MANDATORY FIELDS ARE MISSING</button>
+                        </div>
+                        <div>
+                            <button id="know_more">KNOW MORE</button>
+                            <button id="cancel">CANCEL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="croppingBoxAllPush" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="col-8 offset-2">
+                    <input type="file" (change)="fileChange(editinputA)" #editinputA class="m-img-upload-btn" />
+                    <button class="btn btn-success btn-block" type="button">
+                            <i class="fa fa-upload"></i> Choose images...
+                    </button>
+                </div>
+                <div class="card images-container">
+                    <div *ngFor="let image of images; let i=index;" class="m-image-wrapper">
+                        <i class="fa fa-times m-delete-img" (click)="removeImage(i)"></i>
+                        <img [attr.src]="image">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" (click)="confirmUploadPush()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="detailsBoxAllPush" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h4>Push Details</h4>
+                <form [formGroup]="notificationAll" (ngSubmit)="AllpushUsers(notificationAll)">
+                    <div class="form-group">
+                        <label>Push Title</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Push Title" name="contTitle" [formControl]="notificationAll.controls['line2']">
+                        <div *ngIf="notificationAll.controls['line2'].errors && (notificationAll.controls['line2'].dirty || notificationAll.controls['line2'].touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!notificationAll.controls['line2'].errors.required">
+                                Title Required
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea formControlName="message" cols="30" rows="10" class="form-control" [formControl]="notificationAll.controls['message']"></textarea>
+                        <div *ngIf="notificationAll.controls['message'].errors && (notificationAll.controls['message'].dirty || notificationAll.controls['message'].touched)"
+                            class="alert alert-danger">
+
+                            <div [hidden]="!notificationAll.controls['message'].errors.required">
+                                Message is required
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label>Url</label>
+                        <input type="text" class="form-control form-control-sm" placeholder="Url" [formControl]="notificationAll.controls['url']"
+                            pattern="https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,}">
+                        <div *ngIf="notificationAll.controls['url'].errors && (notificationAll.controls['url'].dirty || notificationAll.controls['url'].touched)"
+                            class="alert alert-danger">
+                            <div [hidden]="!notificationAll.controls['url'].errors.pattern">
+                                Enter Valid Link
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-xs-12 zeroPadding">
+                        <div class="col-xs-10 col-xs-offset-2" style="margin: 13px 0 0 73px;">
+                            <button type="submit" class="btn btn-primary" [disabled]="!notificationAll.valid">Submit</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>-->
+

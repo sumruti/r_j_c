@@ -1,0 +1,60 @@
+.zeroPadding{
+    padding: 0px !important;
+}
+.table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    width: 100%;
+    text-align:center;
+}
+.buttonCus{
+    // margin-left: 72%;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #22A1E4;
+    height: 30px;
+}
+.buttonCusUnban{
+    // margin-left: 72%;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #3a730f;
+    height: 30px;
+}
+.Postbtn{
+    // margin-left: 72%;
+    float: right;
+    margin-right: 2%;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #22A1E4;
+    height: 30px;
+}
+.custom{
+    cursor: pointer;
+    color: #22a1e4 !important;
+}
+.table td a.custom:hover {
+    color: blue !important;
+    text-decoration: underline !important;
+}
+div#userDetail td {
+    border: 0;
+}
+.lBtn {
+    background-color: transparent;
+    border-color: transparent;
+    color : #344154;
+}

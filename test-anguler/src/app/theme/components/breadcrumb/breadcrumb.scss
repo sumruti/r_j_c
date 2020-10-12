@@ -1,0 +1,26 @@
+@import "../../styles/variables";
+
+.breadcrumb{
+    padding: 0;
+    background: transparent;
+    color: $text-color;
+    font-size: 14px;
+    margin-bottom: 30px;
+    background-color: #f9f9f9 !important;
+    padding: 20px 17px !important;
+    -webkit-box-shadow: 0px 0px 4px 1px gray;
+       -moz-box-shadow: 0px 0px 4px 1px gray;
+            box-shadow: 0px 0px 4px 1px gray;
+   border-radius:0 !important;         
+}
+.breadcrumb-item + .breadcrumb-item::before {  
+    color: $text-color;
+    content: ">";
+}
+.breadcrumb-item{
+    float: left;
+    &.active{
+       color: $text-color;
+       font-weight: bold;
+    }
+}

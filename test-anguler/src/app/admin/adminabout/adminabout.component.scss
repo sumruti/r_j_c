@@ -1,0 +1,36 @@
+.zeroPadding{
+    padding: 0px !important;
+}
+.configbtn{
+    // margin-left: 72%;
+    border: none;
+    border-radius: 2px;
+    font-size: 14px;
+    padding: 6px 21px;
+    cursor: pointer;
+    color: #fff;
+    background: #22A1E4;
+    height: 33px;
+}
+.button-cust{
+    background-color: transparent;
+    border-color: transparent;
+}
+.customTextbox {
+    // margin-left: 50%;
+    // float: right;
+    width: 180px;
+    box-sizing: content-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: white;
+    background-position: 10px 10px;
+    background-repeat: no-repeat;
+    padding: 6px 20px 7px 40px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+.modal-sm {
+    max-width: 411px;
+}
